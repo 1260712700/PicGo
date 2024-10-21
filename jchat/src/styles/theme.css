@@ -1,0 +1,44 @@
+:root {
+  --theme-background-color: aliceblue;
+  --theme-bg-message: #f5f5f5;
+  --theme-bg-category: linear-gradient(135deg, #f54ea2, #ff7676);
+  --theme-bg-wave01: rgba(240, 248, 255,0.7);
+  --theme-bg-wave02: rgba(240, 248, 255,0.5);
+  --theme-bg-wave03: rgba(240, 248, 255,0.3);
+  --theme-bg-wave04: rgba(240, 248, 255,1);
+  --theme-bg-footer: linear-gradient(135deg,#f6ceec,#d939cd);
+  --theme-bg-comment: #F2F2F3;
+  --theme-bg-reply: rgba(245, 108, 108, 0.7);
+  --theme-scroll-percentage-bg: #ffffff;
+  --theme-scroll-percentage-bar: linear-gradient(135deg,#17ead9,#6078ea);
+  --theme-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+  --scroll-bar-color: linear-gradient(135deg,#17ead9,#6078ea);
+
+}
+
+html.dark {
+  --theme-background-color: #424242;
+  --theme-bg-message: #212121;
+  --theme-bg-category: linear-gradient(135deg,#000c40,#607d8b);
+  --theme-bg-wave01: rgba(70, 70, 70, 0.7);
+  --theme-bg-wave02: rgba(70, 70, 70, 0.5);
+  --theme-bg-wave03: rgba(70, 70, 70, 0.3);
+  --theme-bg-wave04: rgba(70, 70, 70, 1);
+  --theme-bg-footer: linear-gradient(135deg,#000c40,#607d8b);
+  --theme-bg-right: #292D3DFF;
+  --theme-bg-left: #52305e;
+  --theme-bg-left-card: #714e79;
+  --theme-bg-comment: #a8a8b7;
+  --theme-bg-reply: rgba(0, 0, 0, 0.7);
+  --theme-scroll-percentage-bg: #18222c;
+  --theme-scroll-percentage-bar: linear-gradient(135deg,#5b247a,#1bcedf);
+  --scroll-bar-color: linear-gradient(135deg,#43cbff,#9708cc);
+
+}
+
+body {
+  /* 将 body 元素或者任何其他你想要应用该字体的元素设置为 '阿里妈妈方圆体 VF Regular' */
+  font-family: "阿里妈妈方圆体 VF Regular", sans-serif;
+  /* 当自定义字体尚未加载时提供一个备选字体（在这个例子中是无衬线字体） */
+}

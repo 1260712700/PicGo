@@ -1,0 +1,24 @@
+.wave-change{
+    @apply transition-colors  duration-700;
+}
+
+/* header-change */
+.header-change-enter-active {
+    transition: all .7s linear;
+  }
+  
+  .header-change-leave-active {
+    transition: all .7s ease-out;
+  }
+  .header-change-enter-from{
+    transform: translateY(-100%);
+  }
+  .header-change-enter-to {
+    transform: translateY(0);
+  }
+  .header-change-leave-from {
+    transform: translateY(0);
+  }
+  .header-change-leave-to {
+    transform: translateY(-100%);
+  }

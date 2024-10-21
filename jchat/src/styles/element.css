@@ -1,0 +1,3 @@
+.el-tabs--border-card{
+    @apply border-none rounded-md shadow-md !important;
+}
