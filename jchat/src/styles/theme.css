@@ -1,5 +1,5 @@
 :root {
-  --theme-background-color: aliceblue;
+  --theme-background-color: #f0f8ff;
   --theme-bg-message: #f5f5f5;
   --theme-bg-category: linear-gradient(135deg, #f54ea2, #ff7676);
   --theme-bg-wave01: rgba(240, 248, 255,0.7);
@@ -12,12 +12,12 @@
   --theme-scroll-percentage-bg: #ffffff;
   --theme-scroll-percentage-bar: linear-gradient(135deg,#17ead9,#6078ea);
   --theme-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-
   --scroll-bar-color: linear-gradient(135deg,#17ead9,#6078ea);
-
+  --email: url('/icon/1/email-light.svg')
 }
 
 html.dark {
+
   --theme-background-color: #424242;
   --theme-bg-message: #212121;
   --theme-bg-category: linear-gradient(135deg,#000c40,#607d8b);
@@ -34,6 +34,7 @@ html.dark {
   --theme-scroll-percentage-bg: #18222c;
   --theme-scroll-percentage-bar: linear-gradient(135deg,#5b247a,#1bcedf);
   --scroll-bar-color: linear-gradient(135deg,#43cbff,#9708cc);
+  --email: url('/icon/1/email-dark.svg')
 
 }
 

@@ -10,7 +10,7 @@
             </div>
           </div>
         </div>
-        <!-- <div class="arrow" @click="scrollToMain" width="50px" height="50px" /> -->
+        <div class="arrow" @click="scrollToMain" width="50px" height="50px" />
       
           <Wave/>
       </div>
@@ -87,13 +87,14 @@ const wordIntervalId = ref(null);
 <style  scoped>
 /* 标题盒子--------------------- */
 .brand-container{
+  z-index: -3;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 85vh;
-  position: relative;
+  position: fixed;
   min-height: 10rem;
 }
 .brand{

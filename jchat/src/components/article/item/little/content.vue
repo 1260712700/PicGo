@@ -1,5 +1,5 @@
 <template>
-    <div class="py-[8px] pl-[20px]  rounded-md bg-transparent ">
+    <div class="py-[8px] pl-[20px] w-full h-full rounded-md bg-transparent ">
         <div class="title text-2xl font-bold">标题</div>
         <!-- TODO 统计值的绑定 -->
         <div class="count h-[16px] mt-2">统计</div>

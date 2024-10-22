@@ -1,7 +1,7 @@
 <template>
         <div class=" relative min-h-[40px]  flex items-center justify-center">
             <el-dropdown>
-                <el-avatar @mouseenter="rotate" @mouseleave="endRotate" :class="avatarClass" :size="35" :src="avatar" />
+                <el-avatar @click="showFriendBar" @mouseenter="rotate" @mouseleave="endRotate" :class="avatarClass" :size="35" :src="avatar" />
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>
@@ -27,13 +27,18 @@
 </template>
 
 <script setup>
+import { useSettingStore } from '@/stores/setting';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+const settingStore= useSettingStore()
 const avatar=ref(null)
 const avatarClass=ref('normal')
 onMounted(()=>{
 avatar.value=''
 })
+function showFriendBar(){
+    settingStore.setIsFriendActive(true)
+}
 const router=useRouter()
 function logout(){
     router.push('/login')

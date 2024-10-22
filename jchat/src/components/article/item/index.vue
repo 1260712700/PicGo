@@ -1,15 +1,15 @@
 <template>
     <div :ref="el => setArticleRef(el)"
+      @click=" articleActive(item.id)"
       @mouseenter="enLargeImage" @mouseleave="reduceImage"
-      @click="articleActive(item.id)"
-      class="article-box  shadow-lg   rounded-md mx-[8px] my-[16px] w-full h-[240px]">
-      <div  class="pc w-full flex">
-        <div class="left w-[50%]">
+      class="article-box  shadow-lg h-full  rounded-md my-[16px]">
+      <div v-if="isPC" class="pc h-[240px]   w-full flex">
+        <div class="left h-[240px] w-[50%]">
           <Content v-if="direction" />
         <Image :ref="el=>setImageRef(el)" v-else :bg-cover="bgCover" :loading="loading"/>
 
         </div>
-        <div class="right w-[50%]">
+        <div class="right  h-[240px] w-[50%]">
         <Image :ref="el=>setImageRef(el)" v-if="direction" :bg-cover="bgCover" :loading="loading"/>
         <Content v-else/>
           <div>
@@ -17,19 +17,34 @@
   
         </div>
       </div>
+      <div v-else class="mobile  h-[400px] w-full">
+        <div class="top h-[200px] w-full">
+        <Image :ref="el=>setImageRef(el)" :bg-cover="bgCover" :loading="loading"/>
+        </div>
+        <div class="bottom  h-[200px] w-full">
+        <Content />
+          <div>
+          </div>
+  
+        </div>
+      </div> 
   
     </div>
   
   </template>
   
   <script setup>
-  import { computed, onBeforeMount, onMounted, ref } from 'vue';
+  import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
   import { useSettingStore } from '@/stores/setting';
   import { useRouter } from 'vue-router';
 import { lazyLoading } from '@/utils/vLazy';
 import Image from './little/image.vue';
 import Content from './little/content.vue';
+const settingStore= useSettingStore()
   const loading=ref(true)
+  const isPC=computed(()=>{
+    return settingStore.screenWidthGetter().value>762;
+  })
   const props= defineProps({
   item:Object,
   index:Number
@@ -52,16 +67,16 @@ import Content from './little/content.vue';
   }
   // 加载图片
  
-  const settingStore = useSettingStore()
   const router = useRouter()
   // 跳转到文章详情
   function articleActive(id) {
+    if(loading.value){
+      return 
+    }
   // 绑定盒子的尺寸信息
   const articleRect= articleRef.value.getBoundingClientRect()
   settingStore.setBoxRect(articleRect)
-
-  console.log(settingStore.getBoxRect());
-  
+  settingStore.setIsArticleActive(true)
   router.push('/article/'+id)
     
   }

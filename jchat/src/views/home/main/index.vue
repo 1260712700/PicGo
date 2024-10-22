@@ -1,7 +1,7 @@
 <template>
   <Main>
     <template #content>
-      <Article/>
+      <Article/>   
     </template>
     <template #information>
       <SideBar/>

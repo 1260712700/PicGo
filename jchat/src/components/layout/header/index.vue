@@ -21,6 +21,10 @@ onMounted(()=>{
     //     settingStore.mouseXSetter(e.pageX)
     //     settingStore.mouseYSetter(e.pageY)
     // })
+    window.addEventListener('resize',()=>{
+    settingStore.screenWidthSetter(window.innerWidth)
+    settingStore.screenHeightSetter(window.innerHeight)
+    })
     window.addEventListener('scroll',()=>{
         resize()
     })

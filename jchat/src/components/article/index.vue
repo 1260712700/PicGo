@@ -1,7 +1,8 @@
 <template>
-    <div>
-     
-        <el-tabs type="border-card" 
+    <div class="w-full">
+        <el-tabs 
+        class="tabs"
+        type="border-card" 
         v-model="activeName"  @tab-click="handleClick">
           <el-tab-pane label="世界" name="first">
             <World/>
@@ -13,6 +14,7 @@
             <New/>
           </el-tab-pane>
         </el-tabs>
+    
     </div>
 </template>
 
@@ -26,8 +28,15 @@ const activeName = ref('second')
 
 const handleClick = (tab,event) => {
 }
+
+
 </script>
 
-<style lang="scss" scoped>
-
+<style  >
+.tabs .el-tabs__header{
+  @apply transition-colors duration-700 rounded-md;
+}
+.el-tabs--border-card {
+  @apply transition-colors duration-700 rounded-md;
+}
 </style>

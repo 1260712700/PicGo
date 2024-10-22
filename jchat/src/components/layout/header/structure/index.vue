@@ -11,8 +11,13 @@
         </div>
         </template>
         <template #right>
-            <div class="flex w-auto space-x-4 items-center ">
-                <DarkModeButton />
+            <div class="flex w-auto space-x-5 items-center ">
+                <div class="email">
+                    <EmailButton/>
+                </div>
+                <div class="darkButton w-auto h-auto flex justify-center items-center">
+                    <DarkModeButton />
+                </div>
                 <head-user-info/>
             </div>
         </template>
@@ -20,6 +25,7 @@
 </template>
 
 <script setup>
+
 import Header from '../layout/index.vue';
 import { ref } from "vue";
 
@@ -29,10 +35,18 @@ import DarkModeButton from "../little/dark-mode-button.vue";
 import HeadUserInfo from "../little/head-user-info.vue";
 import HeadSearch from '../common/head-search.vue';
 import HeadNavigationMobileButton from '../common/head-navigation-mobile-button.vue';
+import EmailButton from '../little/email-button.vue';
 
 const mode=ref('horizontal')//菜单展示形式 横排展示
 </script>
 
 <style  scoped>
+.email:hover{
+    animation: jump 0.7s ease-out;
+    
+}
+.darkButton:hover{
+    animation: jump 0.7s ease-out;
+}
 
 </style>

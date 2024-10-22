@@ -137,16 +137,5 @@ p {
   }
 }
 
-@media (max-width: 768px) {
-  .waves {
-    margin-bottom: -115px;
-    height: 60px;
-    min-height: 70px;
-  }
 
-  .header{
-    bottom: -55px;
-  }
-
-}
 </style>

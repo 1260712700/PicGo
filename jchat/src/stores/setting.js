@@ -8,10 +8,31 @@ export const useSettingStore= defineStore("settingStore",()=>{
    const mouseX=ref(0)//鼠标横轴位置
    const mouseY=ref(0)//鼠标纵轴
    const boxRect=ref('')//盒子信息
+   const isArticleActive=ref(false)
+   const isFriendActive=ref(false)
+   const isMessageActive=ref(false)
+   function setIsMessageActive(val){
+    isMessageActive.value=val
+   }
+   function getIsMessageActive(){
+    return isMessageActive.value
+   }
+   function setIsFriendActive(val){
+    isFriendActive.value=val
+   }
+   function getIsFriendActive(){
+    return isFriendActive.value
+   }
+   function setIsArticleActive(val){
+    isArticleActive.value=val
+   }
+   function getIsArticleActive(){
+    return isArticleActive.value
+   }
    function setBoxRect(box){
     boxRect.value=box
    }
-   function getBoxRect(box){
+   function getBoxRect(){
     return boxRect.value
    }
     function darkSwitch(){
@@ -61,6 +82,8 @@ function  scrollTopSetter(val){
         mouseYGetter,mouseYSetter,
         scrollTopGetter,scrollTopSetter,
         IS_DARK,darkSwitch,
-        setBoxRect,getBoxRect
+        setBoxRect,getBoxRect,setIsArticleActive,getIsArticleActive,
+        setIsFriendActive,getIsFriendActive,
+        setIsMessageActive,getIsMessageActive
     }
 })

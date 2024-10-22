@@ -14,6 +14,8 @@ export const constantRouter = [
                             path: 'article/:id',
                             component: () => import('@/views/article/index.vue'),
                             name: 'articleDetail',
+                            // 路由传参
+                            props:true
                    
                         }
                     ]
