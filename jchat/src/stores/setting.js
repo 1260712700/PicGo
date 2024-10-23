@@ -10,13 +10,7 @@ export const useSettingStore= defineStore("settingStore",()=>{
    const boxRect=ref('')//盒子信息
    const isArticleActive=ref(false)
    const isFriendActive=ref(false)
-   const isMessageActive=ref(false)
-   function setIsMessageActive(val){
-    isMessageActive.value=val
-   }
-   function getIsMessageActive(){
-    return isMessageActive.value
-   }
+ 
    function setIsFriendActive(val){
     isFriendActive.value=val
    }
@@ -84,6 +78,5 @@ function  scrollTopSetter(val){
         IS_DARK,darkSwitch,
         setBoxRect,getBoxRect,setIsArticleActive,getIsArticleActive,
         setIsFriendActive,getIsFriendActive,
-        setIsMessageActive,getIsMessageActive
     }
 })

@@ -8,43 +8,41 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu class=" overflow-x-hidden">
-            <el-dropdown-item >
-                <div class="h-[30px]">
+            <el-dropdown-item @click="openMessageBox('second')">
+                <div  class="h-[30px]">
                     <el-badge :value="12" :max="99" class="item">
-                        回复我的
+                        <div >回复我的</div>
                         </el-badge>
                 </div>
-             
             </el-dropdown-item>
-            <el-dropdown-item>
+            <el-dropdown-item @click="openMessageBox('third')">
                 <div class="h-[30px]">
                     <el-badge :value="12" :max="99" class="item">
-                        系统消息
+                        <div >系统通知</div>
                     </el-badge>
                 </div>
             
                 </el-dropdown-item>
-            <el-dropdown-item>
+            <el-dropdown-item @click="openMessageBox('four')">
                 <div class="h-[30px]">
                 <el-badge :value="12" :max="99" class="item">
-                评论和@
+                        <div >评论和@</div>
             </el-badge>
         </div>
 
             </el-dropdown-item>
-            <el-dropdown-item >
+            <el-dropdown-item @click="openMessageBox('five')">
                 <div class="h-[30px]">
-
                 <el-badge :value="12" :max="99" class="item">
-                新增关注
+                    <div >新增关注</div>
             </el-badge>
         </div>
 
             </el-dropdown-item>
-            <el-dropdown-item >
+            <el-dropdown-item @click="openMessageBox('six')">
                 <div class="h-[30px]">
                 <el-badge :value="12" :max="99" class="item">
-                收到的赞
+                    <div >收到的赞</div>
             </el-badge>
         </div>
 
@@ -59,7 +57,13 @@
 </template>
 
 <script setup>
+import { useMessageStore } from '@/stores/message';
 
+const messageStore= useMessageStore()
+function openMessageBox(index){
+    messageStore.setIsMessageActive(true)
+    messageStore.setMessageIndex(index)
+}
 </script>
 
 <style lang="scss" scoped>

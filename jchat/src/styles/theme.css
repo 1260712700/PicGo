@@ -13,7 +13,8 @@
   --theme-scroll-percentage-bar: linear-gradient(135deg,#17ead9,#6078ea);
   --theme-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   --scroll-bar-color: linear-gradient(135deg,#17ead9,#6078ea);
-  --email: url('/icon/1/email-light.svg')
+  --email: url('/icon/1/email-light.svg');
+  --trademark:url('tea-light.png')
 }
 
 html.dark {
@@ -34,8 +35,8 @@ html.dark {
   --theme-scroll-percentage-bg: #18222c;
   --theme-scroll-percentage-bar: linear-gradient(135deg,#5b247a,#1bcedf);
   --scroll-bar-color: linear-gradient(135deg,#43cbff,#9708cc);
-  --email: url('/icon/1/email-dark.svg')
-
+  --email: url('/icon/1/email-dark.svg');
+  --trademark:url('tea-dark.png');
 }
 
 body {

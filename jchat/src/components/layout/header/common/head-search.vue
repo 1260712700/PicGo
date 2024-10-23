@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-full">
     <el-input v-model="content" placeholder="搜索"></el-input>
   </div>
 </template>

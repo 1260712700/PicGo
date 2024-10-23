@@ -1,9 +1,10 @@
 <template>
     <Header>
         <template #left>
-        <div class=" hidden lg:w-full lg:flex  h-[45px] ">
+        <div class=" hidden lg:w-full lg:flex justify-center items-center  h-[45px] ">
             <head-logo/>
-            <headNavigation class="h-[45px]" :mode="mode"/>
+            <HeadSearch/>
+            <!-- <headNavigation class="h-[45px]" :mode="mode"/> -->
         </div>
         <div class="w-full  flex items-center h-[45px] lg:hidden">
             <HeadNavigationMobileButton/>
@@ -35,7 +36,7 @@ import DarkModeButton from "../little/dark-mode-button.vue";
 import HeadUserInfo from "../little/head-user-info.vue";
 import HeadSearch from '../common/head-search.vue';
 import HeadNavigationMobileButton from '../common/head-navigation-mobile-button.vue';
-import EmailButton from '../little/email-button.vue';
+import EmailButton from '../little/message.vue';
 
 const mode=ref('horizontal')//菜单展示形式 横排展示
 </script>

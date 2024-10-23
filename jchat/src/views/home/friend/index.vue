@@ -5,7 +5,7 @@
       :lockScroll="true" :with-header="false" v-model="showFriend" :direction="direction">
             <template #default>
               <div class="h-[50px] w-full bg-black">
-                <el-button @click="click" type="primary">点击</el-button>
+                <el-button type="primary">点击</el-button>
               </div>
             </template>
             <template #footer>
@@ -22,9 +22,7 @@ import { useSettingStore } from '@/stores/setting';
 const settingStore= useSettingStore()
 const direction = ref('rtl')
 const showFriend=ref(false)
-function click(){
-    settingStore.setIsMessageActive(true)
-}
+
 watch(()=>settingStore.getIsFriendActive(),(cur)=>{
     showFriend.value=cur
 })

@@ -7,9 +7,8 @@
     placement="bottom"
   >
     <el-link href="/" type="primary">
-      <div  class="flex font-bold  text-lg items-center justify-center h-[45px] w-[100px]">
-        你的世界
-
+      <div  class="flex font-bold  text-lg items-center justify-center h-[45px] w-[130px]">
+        <div class="h-full w-full bg-cover scale-75 bg-center" style="background-image:var(--trademark)"></div>
       </div>
     </el-link>
   </el-tooltip>

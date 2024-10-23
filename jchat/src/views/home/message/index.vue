@@ -1,7 +1,7 @@
 <template>
     <div class="message-container">
         <el-drawer @closed="handleClose" 
-      :lockScroll="false" :with-header="false"  v-model="showFriend" :direction="direction">
+      :lockScroll="false" :with-header="false"  v-model="showMessage" :direction="direction">
             <template #default>
                 <div class="h-full w-full">
                     <el-tabs 
@@ -9,15 +9,17 @@
                     type="border-card" 
                     v-model="activeName">
                       <el-tab-pane label="我的消息" name="first">
-                        <div class="h-[100vh] w-full bg-black"></div>
+                        <MessageBox/>
                       </el-tab-pane>
                       <el-tab-pane label="回复我的" name="second">
                       </el-tab-pane>
-                      <el-tab-pane label="@我的" name="third">
-                      </el-tab-pane>
-                      <el-tab-pane label="收到的赞" name="four">
+                      <el-tab-pane label="系统通知" name="third">
                     </el-tab-pane>
-                    <el-tab-pane label="系统通知" name="five">
+                      <el-tab-pane  label="评论和@" name="four">
+                      </el-tab-pane>
+                      <el-tab-pane  label="新增关注" name="five">
+                    </el-tab-pane>
+                      <el-tab-pane label="收到的赞" name="six">
                     </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -29,20 +31,24 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { useSettingStore } from '@/stores/setting';
-const settingStore= useSettingStore()
+import { useMessageStore } from '@/stores/message';
+import MessageBox from './container/index.vue';
+const messageStore= useMessageStore()
 const direction = ref('ltr')
-const showFriend=ref(false)
-
+const showMessage=ref(false)
 const activeName = ref('second')
-
-watch(()=>settingStore.getIsMessageActive(),(cur)=>{
-    showFriend.value=cur
+watch(()=>messageStore.getIsMessageActive(),(cur)=>{
+    showMessage.value=cur
+})
+watch(()=>messageStore.getMessageIndex(),(cur)=>{
+    activeName.value=cur
+})
+watch(()=>activeName.value,(cur)=>{
+    messageStore.setMessageIndex(cur)
 })
 function handleClose(){
-    settingStore.setIsMessageActive(false)
+    messageStore.setIsMessageActive(false)
 }
-
 </script>
 
 <style  >
@@ -50,7 +56,7 @@ function handleClose(){
     @apply h-full w-full ;
 }
 .message-container .el-tabs--border-card>.el-tabs__content {
-    @apply p-0 h-full w-full overflow-auto;
+    @apply p-0 w-full h-[80vh];
 }
 .message-container .el-drawer.ltr {
     @apply h-[85%] top-[7.5%] w-[50%] rounded-md !important; 
@@ -58,4 +64,5 @@ function handleClose(){
 .message-container .el-drawer__body{
     @apply p-0
 }
+
 </style>
