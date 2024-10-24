@@ -1,7 +1,7 @@
 <template>
     <div class="message-container">
         <el-drawer @closed="handleClose" 
-      :lockScroll="false" :with-header="false"  v-model="showMessage" :direction="direction">
+      :lockScroll="true" :with-header="false"  v-model="showMessage" :direction="direction">
             <template #default>
                 <div class="h-full w-full">
                     <el-tabs 
@@ -32,7 +32,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useMessageStore } from '@/stores/message';
-import MessageBox from './container/index.vue';
+import MessageBox from './container/myMessage.vue';
 const messageStore= useMessageStore()
 const direction = ref('ltr')
 const showMessage=ref(false)
@@ -59,10 +59,13 @@ function handleClose(){
     @apply p-0 w-full h-[80vh];
 }
 .message-container .el-drawer.ltr {
-    @apply h-[85%] top-[7.5%] w-[50%] rounded-md !important; 
+    @apply h-[85%] top-[7.5%] w-[50%]  min-w-[850px] rounded-md !important; 
 }
 .message-container .el-drawer__body{
     @apply p-0
 }
+.message-container .el-tabs__content .el-tab-pane{
+    @apply h-full w-full
 
+}
 </style>

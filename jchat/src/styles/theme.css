@@ -1,6 +1,12 @@
 :root {
+  /* 图标颜色 */
+  --theme-icon-color:#3b3b3b;
   --theme-background-color: #f0f8ff;
-  --theme-bg-message: #f5f5f5;
+  /* 聊天信息背景颜色 */
+  --theme-bg-left-message:#f8f8f9;
+  --theme-bg-right-message:  #ebf3ff;
+  /* 小文本颜色 */
+  --theme-little-text-color: rgb(124, 122, 122);
   --theme-bg-category: linear-gradient(135deg, #f54ea2, #ff7676);
   --theme-bg-wave01: rgba(240, 248, 255,0.7);
   --theme-bg-wave02: rgba(240, 248, 255,0.5);
@@ -18,9 +24,15 @@
 }
 
 html.dark {
+  --theme-bg-left-message:#464647;
+  --theme-bg-right-message:  #292c30;
+
+  --theme-icon-color:#ebeaea;
+  
+  --theme-little-text-color: rgb(189, 186, 186);
 
   --theme-background-color: #424242;
-  --theme-bg-message: #212121;
+  --theme-bg-message: #f5f5f5;
   --theme-bg-category: linear-gradient(135deg,#000c40,#607d8b);
   --theme-bg-wave01: rgba(70, 70, 70, 0.7);
   --theme-bg-wave02: rgba(70, 70, 70, 0.5);
@@ -43,4 +55,7 @@ body {
   /* 将 body 元素或者任何其他你想要应用该字体的元素设置为 '阿里妈妈方圆体 VF Regular' */
   font-family: "阿里妈妈方圆体 VF Regular", sans-serif;
   /* 当自定义字体尚未加载时提供一个备选字体（在这个例子中是无衬线字体） */
+}
+.icon:hover{
+  opacity: 0.6;
 }

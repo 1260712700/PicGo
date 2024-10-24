@@ -5,14 +5,14 @@
     </div>
     <div class="h-[40px] w-full">
         <div class="h-[20px] flex w-full">
-            <div class="h-[20px] w-auto   text-md">
+            <div class="h-[20px] w-auto text-sm" >
                 {{ message.name }}
             </div>
-            <div class="h-[20px] ml-auto text-sm">
+            <div class="h-[20px] ml-auto text-xs" style="color: var(--theme-little-text-color);">
                 {{ message.time }}
             </div>
         </div>
-        <div class="h-[20px] text-left text-sm">
+        <div class="h-[20px] text-left text-xs" style="color: var(--theme-little-text-color);">
             {{  message.content }}
         </div>
     </div>

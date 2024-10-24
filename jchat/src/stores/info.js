@@ -17,7 +17,7 @@ export const useInfoStore = defineStore('infoStore', () => {
         isDelete:0,
         createTime:'2024-10-06 21:42:04'
     })
-    const curUser=reactive({
+    const curUser=ref({
         id:'1',
         username:'admin',
         avatar:'/svg/boy-avatar.svg',
@@ -32,6 +32,12 @@ export const useInfoStore = defineStore('infoStore', () => {
         isDelete:0,
         createTime:'2024-10-06 21:42:04'
     })
+    function setCurUser(user){
+        curUser.value=user
+    }
+    function getCurUser(){
+        return curUser.value
+    }
     const targetUserWord=ref([
         '你不知道的事，还有很多呢，傻孩子',
         '在一无所有的的年纪遇到了最适合的你',
@@ -90,6 +96,6 @@ export const useInfoStore = defineStore('infoStore', () => {
       ])
     return {
         targetUserWord,targetUserBg,
-        targetUserArticleList, targetUser,curUser,
+        targetUserArticleList, targetUser,setCurUser,getCurUser
     }
 });
