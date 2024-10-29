@@ -56,6 +56,10 @@ body {
   font-family: "阿里妈妈方圆体 VF Regular", sans-serif;
   /* 当自定义字体尚未加载时提供一个备选字体（在这个例子中是无衬线字体） */
 }
+.icon{
+  @apply h-full w-full transition-colors duration-700
+}
 .icon:hover{
-  opacity: 0.6;
+  animation: jump 0.7s ease-out;
+  /* opacity: 0.6; */
 }

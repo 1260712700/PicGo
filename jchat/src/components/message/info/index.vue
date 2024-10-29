@@ -26,7 +26,6 @@
     border-radius: 4px;
     margin-bottom: 15px;
     word-wrap: break-word;
-   
     font-weight: 400;
     font-size: 14px;
   }

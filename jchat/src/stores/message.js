@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
 
-export const useMessageStore = defineStore('messageStore', () => {
+export const useMessageStore = defineStore('message', () => {
     const chatMessages=reactive([{
         id:'12',
         name:'马飞飞',
@@ -28,7 +28,6 @@ export const useMessageStore = defineStore('messageStore', () => {
         }
       ])
       function pushMessageInfos(message){
-        console.log(message);
         messageInfos.push(message)
     }
     function getMessageInfos(){

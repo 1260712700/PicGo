@@ -1,5 +1,5 @@
 <template>
-
+<div class="dark-mode-button icon flex justify-center items-center">
     <button ref="darkModeRef" @click="TOGGLE"  class="toggle" aria-pressed="false" >
       <span class="toggle__content">
         <svg aria-hidden=true class="toggle__backdrop" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 290 228">
@@ -197,7 +197,7 @@
         </span>
       </span>
     </button>
-    
+  </div>
    
   </template>
   <script setup>

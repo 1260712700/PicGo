@@ -22,10 +22,10 @@
         <!-- 定义一个g元素，用于讲多个图形组合在一期，并应用一些样式
             通过设置不同的x，y坐标和填充颜色，实现了波浪形状和渐变效果 -->
         <g class="parallax">
-          <use xlink:href="#gentle-wave" class="wave-change" x="48" y="0" fill="var(--theme-bg-wave01)"/>
-          <use xlink:href="#gentle-wave" class="wave-change" x="48" y="3" fill="var(--theme-bg-wave02)"/>
-          <use xlink:href="#gentle-wave" class="wave-change" x="48" y="5" fill="var(--theme-bg-wave03)"/>
-          <use xlink:href="#gentle-wave" class="wave-change" x="48" y="7" fill="var(--theme-bg-wave04)"/>
+          <use xlink:href="#gentle-wave" class="color-change" x="48" y="0" fill="var(--theme-bg-wave01)"/>
+          <use xlink:href="#gentle-wave" class="color-change" x="48" y="3" fill="var(--theme-bg-wave02)"/>
+          <use xlink:href="#gentle-wave" class="color-change" x="48" y="5" fill="var(--theme-bg-wave03)"/>
+          <use xlink:href="#gentle-wave" class="color-change" x="48" y="7" fill="var(--theme-bg-wave04)"/>
         </g>
 
       </svg>

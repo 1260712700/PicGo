@@ -1,10 +1,10 @@
 <script setup >
-import HeaderBox from '@/components/layout/header/index.vue';
+import HeaderBox from '@/components/header/index.vue';
 
 </script>
 
 <template>
-  <HeaderBox/>
+    <HeaderBox/>
   <div style="min-height: 100vh">
     <router-view></router-view>
    <!-- <router-view v-slot="{Component}">

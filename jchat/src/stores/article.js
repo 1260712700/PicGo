@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { reactive } from 'vue';
 
-export const useArticleStore = defineStore('articleStore', () => {
+export const useArticleStore = defineStore('article', () => {
     const articleList=reactive(
         [
          {

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import {  ref } from "vue";
-export const useSettingStore= defineStore("settingStore",()=>{
+export const useSettingStore= defineStore("setting",()=>{
     const  IS_DARK=ref(false);//是否暗黑模式
    const scrollTop=ref(0)//滑动顶部值
     const screenWidth=ref(window.innerWidth)//屏幕宽度

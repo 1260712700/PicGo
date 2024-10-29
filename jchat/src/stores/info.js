@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
 
-export const useInfoStore = defineStore('infoStore', () => {
+export const useInfoStore = defineStore('info', () => {
     const targetUser=reactive({
         id:'1',
         username:'测试目标用户',

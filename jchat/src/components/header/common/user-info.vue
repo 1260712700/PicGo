@@ -1,5 +1,5 @@
 <template>
-        <div class=" relative min-h-[40px]  flex items-center justify-center">
+        <div class="user-info relative min-h-[40px]  flex items-center justify-center">
             <el-dropdown>
                 <el-avatar @click="showFriendBar" @mouseenter="rotate" @mouseleave="endRotate" :class="avatarClass" :size="35" :src="avatar" />
                 <template #dropdown>

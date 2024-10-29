@@ -1,11 +1,11 @@
 <template>
   <div >
     <div 
-    class="hidden article-box md:z-50 md:flex md:h-full md:w-full md:rounded-md md:shadow-md md:bg-white ">
+    class="hidden article-box md:z-50 md:flex md:h-full md:w-full md:rounded-md md:shadow-md  ">
     <div class=" h-full  w-[50%]">
       <slot name="content" ></slot>
     </div>
-    <div class=" h-full rounded-md overflow-hidden w-[50%]">
+    <div class=" h-full  overflow-hidden w-[50%]">
       <slot name="media"></slot>
     </div>
   </div>  

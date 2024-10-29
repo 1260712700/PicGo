@@ -2,7 +2,8 @@
     <el-dropdown>
         <span class="el-dropdown-link">
     <el-badge :value="12" :max="99" class="item">
-        <div class=" bg-cover h-[25px] w-[25px]" style="background-image: var(--email);">
+        <div class=" email h-[30px] w-[30px]">
+            <Email/>
         </div>
       </el-badge>
         </span>
@@ -51,12 +52,10 @@
         </template>
       </el-dropdown>
 
-
-  
-
 </template>
 
 <script setup>
+import Email from '@/icon/email.vue';
 import { useMessageStore } from '@/stores/message';
 
 const messageStore= useMessageStore()
