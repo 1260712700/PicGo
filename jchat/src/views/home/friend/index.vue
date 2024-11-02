@@ -22,7 +22,6 @@ import { useSettingStore } from '@/stores/setting';
 const settingStore= useSettingStore()
 const direction = ref('rtl')
 const showFriend=ref(false)
-
 watch(()=>settingStore.getIsFriendActive(),(cur)=>{
     showFriend.value=cur
 })

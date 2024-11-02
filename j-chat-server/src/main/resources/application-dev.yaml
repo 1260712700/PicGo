@@ -1,0 +1,65 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/j_chat
+    username: root
+    password: 123456
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 8 #最大连接
+          max-idle: 8 # 最大空闲连接
+          min-idle: 0 #最小空闲连接
+          max-wait: 100 #连接等待时间
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: "jp"
+    password: "030311"
+    virtual-host: /jchat
+      # 邮箱队列名称
+    queue:
+      email: email_queue
+      log-login: log_login_queue
+      log-system: log_system_queue
+      # 邮箱交换机名称
+    exchange:
+      email: email_exchange
+      log: log_exchange
+      # 邮箱路由键
+    routingKey:
+      email: email_routing_key
+      log-login: log_routing_key_login
+      log-system: log_routing_key_system
+mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
+
+security:
+  jwt:
+    key: jwt-key
+    # jwt 的有效时间（天）
+    expire: 7
+
+#      front:
+#        group-name: 前台接口分组
+#        api-rule: package
+#        api-rule-resources:
+#          - com.itwenke.springbootdemo.knife4j.front
+springdoc:
+  api-docs:
+    enabled: true
+#  swagger-ui:
+#    persist-authorization: true
+jp-chat:
+  api:
+    title: 后端接口文档
+    name: jp
+    version: 0.1
+logging:
+  level:
+    org.springframework.security: INFO

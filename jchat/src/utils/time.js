@@ -1,4 +1,4 @@
-
+// 获取时分
 export default function getTime(){
     const d= new Date()
     const m=d.getMinutes()

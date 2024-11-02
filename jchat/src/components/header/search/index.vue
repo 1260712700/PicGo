@@ -1,20 +1,20 @@
 <template>
   <Search>
     <template #search-input>
-  <div class="search-input  flex justify-center items-center" @focusin="searchFocusin" @focusout="searchFocusout">
-    <div :class="searchStyle">
+  <div  class="search-input  flex justify-center items-center" >
+    <div :class="searchStyle" >
       <div class="h-[30px]">
         <SearchIcon/>
       </div>
-      <el-input v-model="content" placeholder="搜索"></el-input>
+      <el-input  @focusin="searchFocusin"  v-model="content" placeholder="搜索"></el-input>
       <div class="h-[30px] clean-content" @click="cleanContent" v-show="!contentIsNull">
+        <!-- 清理输入框 -->
           <Clean/>
       </div>
     </div>
   </div>
 </template>
 <template #history>
-
   <transition name="fade">
     <div v-show="showHistory" class="history-container " >
       <div class="history-head  mb-3 items-center flex">
@@ -49,7 +49,7 @@
         </div>
     </div>
     </div>
-  </transition>
+    </transition>
 </template>
 </Search>
 </template>
@@ -62,9 +62,7 @@ import Search from './layout/index.vue';
 import Garbage from '@/icon/garbage.vue';
 import { useSearchStore } from '@/stores/search';
 import { useSettingStore } from '@/stores/setting';
-
 const searchStore= useSearchStore()
-
 const content=ref('')
 const contentIsNull=computed(()=>{
   return content.value===''||content.value===null
@@ -82,6 +80,7 @@ function searchFocusout(){
   searchStyle.value='search-container'
   showHistory.value=false
 }
+
 const cleanHistoryStyle=ref('clean-history')
 const cleanHistoryIconColor=ref('var(--theme-little-text-color)')
 // 清空历史字样悬浮
@@ -110,7 +109,7 @@ watch(settingStore.scrollTopGetter(),(cur)=>{
   @apply border-2 flex rounded-2xl w-[100%] transition-all  duration-700  pl-3 pr-1;
 }
 
-.is-focus{
+.search-container .is-focus{
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -129,14 +128,14 @@ border-color: var(--el-color-primary);
   opacity: 0.6;
 }
 .history-container{
-  @apply w-full h-full rounded-b-2xl p-[16px];
+  @apply w-full h-full  transition-all duration-700 rounded-b-2xl p-[16px];
   background-color: var(--el-bg-color);
 }
 .clean-history{
   @apply ml-auto justify-center items-center flex;
   color: var(--theme-little-text-color);
 }
-.is-hover{
+.search-container  .is-hover{
   color: #6b97df;
 }
 .history-record{

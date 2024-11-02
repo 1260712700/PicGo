@@ -1,7 +1,7 @@
 <template>
         <div class="user-info relative min-h-[40px]  flex items-center justify-center">
             <el-dropdown>
-                <el-avatar @click="showFriendBar" @mouseenter="rotate" @mouseleave="endRotate" :class="avatarClass" :size="35" :src="avatar" />
+                <el-avatar @click="showFriendBar" :class="avatarClass" :size="35" :src="avatar" />
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>
@@ -28,38 +28,28 @@
 
 <script setup>
 import { useSettingStore } from '@/stores/setting';
+import { useUserStore } from '@/stores/user';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const settingStore= useSettingStore()
 const avatar=ref(null)
 const avatarClass=ref('normal')
+const userStore= useUserStore()
 onMounted(()=>{
-avatar.value=''
+    const userInfo= userStore.userInfo
+    if(userInfo)avatar.value=userInfo.avatar
 })
 function showFriendBar(){
     settingStore.setIsFriendActive(true)
 }
 const router=useRouter()
 function logout(){
-    router.push('/login')
+    router.push('/welcome')
 }
 
-const timeoutId=ref(null)
-function rotate(){
-    avatarClass.value='rotating'
-    timeoutId.value= setTimeout(()=>{
-    avatarClass.value='normal'
-    },1000)
-}
-function endRotate(){
-    if(!timeoutId.value)return
-     avatarClass.value='normal'
-}
+
 </script>
 
 <style  scoped>
-.rotating{
-    transition: transform .7s ease-in;
-    transform: rotate(360deg);
-}
+
 </style>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jp.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.jp.domain.entity.User">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="TINYINT"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="intro" column="intro" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="registerIp" column="register_ip" jdbcType="VARCHAR"/>
+            <result property="registerType" column="register_type" jdbcType="TINYINT"/>
+            <result property="registerAddress" column="register_address" jdbcType="VARCHAR"/>
+            <result property="loginIp" column="login_ip" jdbcType="VARCHAR"/>
+            <result property="loginAddress" column="login_address" jdbcType="VARCHAR"/>
+            <result property="loginType" column="login_type" jdbcType="TINYINT"/>
+            <result property="loginTime" column="login_time" jdbcType="TIMESTAMP"/>
+            <result property="isDisable" column="is_disable" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,nickname,username,
+        gender,password,avatar,
+        intro,email,register_ip,
+        register_type,register_address,login_ip,
+        login_address,login_type,login_time,
+        is_disable,create_time,update_time,
+        is_deleted
+    </sql>
+</mapper>

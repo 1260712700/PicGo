@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jp.mapper.PermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.jp.domain.entity.Permission">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="permissionDesc" column="permission_desc" jdbcType="VARCHAR"/>
+            <result property="permissionKey" column="permission_key" jdbcType="VARCHAR"/>
+            <result property="menuId" column="menu_id" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,permission_desc,permission_key,
+        menu_id,create_time,update_time,
+        is_deleted
+    </sql>
+</mapper>
