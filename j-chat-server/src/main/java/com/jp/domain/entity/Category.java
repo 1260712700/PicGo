@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.jp.domain.BaseData;
 import lombok.Data;
 
 /**
@@ -14,7 +16,7 @@ import lombok.Data;
  */
 @TableName(value ="j_category")
 @Data
-public class Category implements Serializable {
+public class Category implements Serializable, BaseData {
     /**
      * 分类id
      */

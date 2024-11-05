@@ -11,7 +11,7 @@
  
 
 <script setup>
-import Article from '@/components/article/index.vue';
+import Article from '@/views/article/index.vue';
 import Main from '@/components/layout/main/index.vue';
 import SideBar from '@/components/layout/sideBar/index.vue';
 

@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jp.constants.*;
 import com.jp.domain.entity.LoginUser;
-import com.jp.domain.dto.UserRegisterDto;
-import com.jp.domain.dto.UserResetDto;
+import com.jp.domain.dto.UserRegisterDTO;
+import com.jp.domain.dto.UserResetDTO;
 import com.jp.domain.entity.*;
 import com.jp.domain.response.ResponseResult;
 import com.jp.domain.vo.UserAccountVO;
-import com.jp.domain.vo.UserDetailVo;
+import com.jp.domain.vo.UserDetailVO;
 import com.jp.enums.RespEnum;
 import com.jp.enums.RoleEnum;
 import com.jp.mapper.*;
@@ -148,10 +148,10 @@ public  ResponseResult<UserAccountVO> findAccountById(Long id) {
     }
 
     @Override
-    public ResponseResult<UserDetailVo> getUserInfo(Long userId) {
+    public ResponseResult<UserDetailVO> getUserInfo(Long userId) {
         if(userId==null)return ResponseResult.failure(RespEnum.NOT_LOGIN.getCode(),RespEnum.NOT_LOGIN.getMsg());
         User userDto = userMapper.selectById(userId);
-        UserDetailVo ret = userDto.asViewObject(UserDetailVo.class);
+        UserDetailVO ret = userDto.asViewObject(UserDetailVO.class);
         return ResponseResult.success(ret);
     }
 
@@ -178,7 +178,7 @@ public  ResponseResult<UserAccountVO> findAccountById(Long id) {
         return this.userMapper.selectOne(wrapper) != null;
     }
     @Override
-    public ResponseResult<Void> register(UserRegisterDto registerDto) {
+    public ResponseResult<Void> register(UserRegisterDTO registerDto) {
         if(ObjectUtil.isEmpty(registerDto))
             return ResponseResult.failure();
 //        判断用户或邮箱是否存在
@@ -215,7 +215,7 @@ public  ResponseResult<UserAccountVO> findAccountById(Long id) {
     }
 
     @Override
-    public ResponseResult<Void> resetPassword(UserResetDto userResetDto) {
+    public ResponseResult<Void> resetPassword(UserResetDTO userResetDto) {
         // 校验验证码
         ResponseResult<Void> verifyCode = verifyCode(userResetDto.getEmail(), userResetDto.getCode(), RedisConstant.RESET);
         if (verifyCode != null) return verifyCode;
@@ -231,7 +231,7 @@ public  ResponseResult<UserAccountVO> findAccountById(Long id) {
     }
 
     @Override
-    public ResponseResult<Void> resetConfirm(UserResetDto userResetDto) {
+    public ResponseResult<Void> resetConfirm(UserResetDTO userResetDto) {
         ResponseResult<Void> verifyCode =verifyCode(userResetDto.getEmail(),userResetDto.getCode(),RedisConstant.RESET);
         if (verifyCode != null) return verifyCode;
         return ResponseResult.success();

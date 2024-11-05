@@ -1,59 +1,38 @@
 <template>
-   
-<Article>
-    <template #content>
-        <div class="content h-full w-full overflow-auto" style=" scrollbar-width: none;-ms-overflow-style: none; ">
-            <div class="h-[200vh] bg-slate-700"></div>
-            <div class="h-[200vh] bg-gray-950"></div>
-        </div>
-    </template>
-    <template #media>
-        <div class="media w-full h-full">
-            <div class="h-full flex  items-center justify-center w-full" style="background-color: var(--theme-background-color);">
-                <div class="w-full   h-[240px]">
-                    <div v-if="loading" class="rounded-md shadow-md h-full w-full bg-cover bg-center" :style="{backgroundImage:'url('+imageList[0]+')'}"></div>
-                    <div class="rounded-md shadow-md overflow-hidden" v-else>
-                        <el-carousel  height="240px">
-                            <el-carousel-item  v-for="item in imageList" :key="item.id">
-                                <div class="h-[240px] w-full bg-cover bg-center" :style="{backgroundImage:'url('+item+')'}"></div>
-                            </el-carousel-item>
-                          </el-carousel>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
-</Article>
+    <div class="w-full">
+        <el-tabs 
+        class="tabs"
+        type="border-card" 
+        v-model="activeName"  @tab-click="handleClick">
+          <el-tab-pane label="发现" name="first">
+            <Discover/>
+          </el-tab-pane>
+          <el-tab-pane label="发布" name="second">
+            <Publish/>
+          </el-tab-pane>
+        </el-tabs>
+    
+    </div>
 </template>
- 
 
 <script setup>
-import Article from '@/components/layout/article/index.vue';
-import { useArticleStore } from '@/stores/article';
-import { useSettingStore } from '@/stores/setting';
-import { onMounted, ref, watch } from 'vue';
-const settingStore= useSettingStore()
-const articleStore= useArticleStore()
-const loading=ref(true)
- const props= defineProps({
-    id:String
-})
-const imageList=ref([])
-onMounted(()=>{
-    setTimeout(()=>{
-        loading.value=false
-    },700)
-    for(let item of articleStore.articleList){
-        if(item.id===props.id){
-            imageList.value=item.articleImage
-        }
-    }
-})
-watch(()=>settingStore.getIsArticleActive(),(cur,pre)=>{
-    if(!cur)loading.value=true
-})
+import Publish from './main/publish.vue';
+import Discover from './main/discover.vue';
+import { ref } from 'vue'
+
+const activeName = ref('first')
+
+const handleClick = (tab,event) => {
+}
+
+
 </script>
 
 <style  >
-
+.tabs .el-tabs__header{
+  @apply transition-colors duration-700 rounded-md;
+}
+.el-tabs--border-card {
+  @apply transition-colors duration-700 rounded-md;
+}
 </style>

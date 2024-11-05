@@ -32,6 +32,13 @@ public class PublicServiceImpl implements PublicService {
 
     @Value("${spring.rabbitmq.exchange.email}")
     private String exchange;
+
+    /**
+     * 发送邮箱注册验证码
+     * @param type 邮箱类型
+     * @param email 邮箱地址
+     * @return
+     */
     @Override
     public ResponseResult<String> registerEmailVerifyCode(String type, String email) {
         // 加锁，防止同一时间被同一人调用多次
@@ -42,11 +49,18 @@ public class PublicServiceImpl implements PublicService {
             redisCache.setCacheObject(RedisConstant.VERIFY_CODE + type + RedisConstant.SEPARATOR + email, verifyCode, RedisConstant.VERIFY_CODE_EXPIRATION, TimeUnit.MINUTES);
             // 发送邮件
             Map<String, Object> senEmail = Map.of("email", email, "code", verifyCode, "type", type);
+//            发送到消息队列中
             rabbitTemplate.convertAndSend(exchange, routingKey, senEmail);
            return   ResponseResult.success("验证码已发送，请注意查收！");
         }
     }
-
+    /**
+     * 发送邮件
+     * @param type 邮箱类型
+     * @param email 邮箱地址
+     * @param content 邮箱内容
+     * @return
+     */
     @Override
     public ResponseResult<Void> sendEmail(String type, String email, Map<String, Object> content) {
         if (content != null) {

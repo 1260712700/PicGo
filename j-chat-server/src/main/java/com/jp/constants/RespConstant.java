@@ -35,7 +35,10 @@ public class RespConstant {
      * 账号无权限（后台）
      */
     public static final String NO_PERMISSION_MSG = "该账号不具备任何权限，无法登录";
-
+    /**
+     * 图片上传
+     */
+    public static final String IMG_UPLOAD_MSG="图片上传失败";
     /**
      * Token 前缀
      */

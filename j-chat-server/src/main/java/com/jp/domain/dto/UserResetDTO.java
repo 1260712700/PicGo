@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
  * @Date 2024/11/1 7:31
  */
 @Data
-public class UserResetDto {
+public class UserResetDTO {
     // 密码
     @Schema(description = "密码")
     @Length(min = 6, max = 20)

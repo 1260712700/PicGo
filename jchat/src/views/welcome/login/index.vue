@@ -1,7 +1,7 @@
 <template>
     <div class="container px-[20px]  text-center overflow-hidden  h-full w-full">
         <div class="title w-full mt-[150px] text-2xl text-center">
-            登录注册
+            登录
         </div>
         <div class="form mt-[50px] w-full">
             <el-form :model="form" :rules="rule" ref="formRef">

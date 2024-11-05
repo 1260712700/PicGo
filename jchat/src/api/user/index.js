@@ -14,7 +14,6 @@ export function login(data) {
 export function register(data){
     return http({
         url: '/user/register',
-      
         data: data,
         method: 'post'
     })

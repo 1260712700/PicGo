@@ -37,7 +37,6 @@ function enLargeArticleCover() {
   if(articleImage.value) {
     articleImage.value.style.transform = 'scale(1.3)'
   }
-  
   }
   function reduceArticleCover() {
     if(articleImage.value)

@@ -51,7 +51,34 @@ export const useArticleStore = defineStore('article', () => {
              updateTime: '2024-10-6 22:06:00' 
          },
         ])
+        const articleList2=reactive(
+            [
+             {
+                 id:'1',
+                 userId:'001',
+                 articleCover:'/bg/1/car_station.jpg',
+                 articleImage:[ 
+                     '/bg/2/Your_name_misiha.png',
+                     "/bg/2/cloud.jpg",
+                     "/bg/2/dusk_girl.jpg",
+                     "/bg/2/dusk_girl2.jpg",
+                     "/bg/2/castle.jpg",
+                     "/bg/2/sea_girl.jpg",
+                    ],
+                     content:'作者有话说。。。。',
+                 categoryId : -1,
+                 articleTitle:'关注文章',
+                 articleAbstract:  '作者有话说',
+                 is_top:0,
+                 isRecommend: 0,
+                 is_delete: 0  ,
+                 status :1 ,
+                 type :1 ,
+                 createTime :'2024-10-6 22:06:00',
+                 updateTime: '2024-10-6 22:06:00' 
+             },
+            ])
     return {
-        articleList
+        articleList,articleList2
     }
 });

@@ -15,11 +15,25 @@ export const constantRouter = [
                     children:[
                         {
                             path: 'article/:id',
-                            component: () => import('@/views/article/index.vue'),
+                            component: () => import('@/views/home/pop/article/container/index.vue'),
                             name: 'articleDetail',
                             // 路由传参
                             props:true
-                   
+                        },
+                        {
+                            path: 'article/publish',
+                            component: () => import('@/views/article/container/publish-article/index.vue'),
+                            name: 'articlePublish',
+                        },
+                        {
+                            path: 'article/home',
+                            component: () => import('@/views/article/container/home/index.vue'),
+                            name: 'articleHome',
+                        },
+                        {
+                            path: 'article/management',
+                            component: () => import('@/views/article/container/management/index.vue'),
+                            name: 'articleManagement',
                         }
                     ]
                 },

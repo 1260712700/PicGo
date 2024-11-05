@@ -13,7 +13,7 @@ import java.util.Date;
  * @Date 2024/10/30 7:12
  */
 @Data
-public class UserDetailVo {
+public class UserDetailVO {
 
     /**
      * 用户id

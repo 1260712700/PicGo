@@ -8,7 +8,6 @@
       </div>
       <el-input  @focusin="searchFocusin"  v-model="content" placeholder="搜索"></el-input>
       <div class="h-[30px] clean-content" @click="cleanContent" v-show="!contentIsNull">
-        <!-- 清理输入框 -->
           <Clean/>
       </div>
     </div>
@@ -109,7 +108,7 @@ watch(settingStore.scrollTopGetter(),(cur)=>{
   @apply border-2 flex rounded-2xl w-[100%] transition-all  duration-700  pl-3 pr-1;
 }
 
-.search-container .is-focus{
+.search-input .is-focus{
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);

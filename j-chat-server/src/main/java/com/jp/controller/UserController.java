@@ -2,15 +2,14 @@ package com.jp.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.jp.anotation.AccessLimit;
-import com.jp.domain.dto.UserLoginDto;
-import com.jp.domain.dto.UserRegisterDto;
-import com.jp.domain.dto.UserResetDto;
+import com.jp.domain.dto.UserLoginDTO;
+import com.jp.domain.dto.UserRegisterDTO;
+import com.jp.domain.dto.UserResetDTO;
 import com.jp.domain.entity.User;
 import com.jp.domain.response.ResponseResult;
 import com.jp.domain.vo.UserAccountVO;
-import com.jp.domain.vo.UserDetailVo;
+import com.jp.domain.vo.UserDetailVO;
 import com.jp.domain.vo.UserListVO;
-import com.jp.enums.RespEnum;
 import com.jp.mapper.UserMapper;
 import com.jp.service.UserService;
 import com.jp.utils.SecurityUtil;
@@ -19,7 +18,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,31 +33,24 @@ import java.util.List;
 public class UserController {
     @Resource
     private UserService userService;
-    @Operation(summary = "登录")
-    @PostMapping("/login")
-    public ResponseResult<UserDetailVo>login(@RequestBody UserLoginDto userLoginDto){
-        log.info("-------------登录接口");
-//      return userService.login(userLoginDto);
-        return null;
-    }
     @Operation(summary = "注册")
     @PostMapping("/register")
-    public ResponseResult<Void> register(@RequestBody UserRegisterDto userRegisterDto){
+    public ResponseResult<Void> register(@RequestBody UserRegisterDTO userRegisterDto){
         return userService.register(userRegisterDto);
     }
     @Operation(summary = "通过用户id获取用户数据")
     @GetMapping("/auth/{id}")
-    public ResponseResult<UserDetailVo>getUserInfo(@PathVariable String id){
+    public ResponseResult<UserDetailVO>getUserInfo(@PathVariable String id){
         return userService.getUserInfo(Long.valueOf(id));
     }
     @Operation(summary = "重置密码确认验证码")
     @PostMapping("/reset-confirm")
-    public ResponseResult<Void> reset(@RequestBody UserResetDto userResetDto){
+    public ResponseResult<Void> reset(@RequestBody UserResetDTO userResetDto){
         return userService.resetConfirm(userResetDto);
     }
     @Operation(summary = "重置密码输入密码")
     @PostMapping("/reset-password")
-    public ResponseResult<Void> resetConfirm(@RequestBody UserResetDto userResetDto){
+    public ResponseResult<Void> resetConfirm(@RequestBody UserResetDTO userResetDto){
         return userService.resetPassword(userResetDto);
     }
     @Resource

@@ -9,8 +9,6 @@
       <slot name="media"></slot>
     </div>
   </div>  
-
-
   <div 
   class="md:hidden article-box z-50   h-full w-full" style="background-color: var(--el-bg-color);">
   <div class="head">
@@ -27,13 +25,7 @@
   
 
 </template>
- 
-
 <script setup>
-import { useSettingStore } from '@/stores/setting';
-import { computed, onMounted, watch } from 'vue';
-import { useRouter } from 'vue-router';
-
 </script>
 
 <style  scoped>

@@ -59,4 +59,5 @@ public class Constant {
          * 前台第三方登录返回token
          */
         public static final String FRONTEND_THIRD_LOGIN_TOKEN = "Access-Token";
+
 }

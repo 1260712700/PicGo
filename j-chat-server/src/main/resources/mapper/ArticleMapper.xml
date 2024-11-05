@@ -9,6 +9,7 @@
             <result property="userId" column="user_id" jdbcType="BIGINT"/>
             <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
             <result property="articleCover" column="article_cover" jdbcType="VARCHAR"/>
+            <result property="articleImages" column="article_images" jdbcType="VARCHAR"/>
             <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
             <result property="articleContent" column="article_content" jdbcType="VARCHAR"/>
             <result property="articleType" column="article_type" jdbcType="TINYINT"/>
@@ -22,9 +23,9 @@
 
     <sql id="Base_Column_List">
         id,user_id,category_id,
-        article_cover,article_title,article_content,
-        article_type,is_top,status,
-        visit_count,create_time,update_time,
-        is_deleted
+        article_cover,article_images,article_title,
+        article_content,article_type,is_top,
+        status,visit_count,create_time,
+        update_time,is_deleted
     </sql>
 </mapper>

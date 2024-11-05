@@ -3,6 +3,7 @@ package com.jp.filter;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jp.domain.entity.LoginUser;
 import com.jp.utils.JwtUtil;
+import com.jp.utils.UserHolder;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (!ObjectUtils.isEmpty(jwt)) {
             // 获取UserDetails
             LoginUser user = (LoginUser) jwtUtil.toUser(jwt);
+            UserHolder.setUser(user.getUser());
             // 创建认证对象
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

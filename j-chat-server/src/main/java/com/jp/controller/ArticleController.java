@@ -1,6 +1,47 @@
-package com.jp.controller;/**
+package com.jp.controller;
+
+import com.jp.domain.dto.ArticleSaveDTO;
+import com.jp.domain.entity.Article;
+import com.jp.domain.response.ResponseResult;
+import com.jp.domain.vo.ArticleVO;
+import com.jp.service.ArticleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+/**
  * @Author JP
  * @Date 2024/11/4 11:38
  */
+@RestController
+@Tag(name = "文章接口")
+@RequestMapping("/article")
 public class ArticleController {
+    @Resource
+    private ArticleService articleService;
+
+    /**
+     * 根据类型获取文章
+     * @param type 0：获取草稿箱文章 1：获取个人所有文章 2：获取推荐文章 3：获取所有文章
+     * @return
+     */
+    @GetMapping("/auth/{type}")
+    @Operation(summary = "获取文章")
+    public ResponseResult<List<ArticleVO>> getArticleByType(@PathVariable String type){
+       return articleService.getArticleByType(type);
+    }
+
+    @PostMapping("/auth/publish")
+    @Operation(summary = "发布文章")
+    public ResponseResult<Void> saveArticle(
+            @ModelAttribute ArticleSaveDTO articleSaveDTO,
+     @RequestParam(value = "imgList",required = false) List<MultipartFile> imgList
+    ){
+        articleSaveDTO.setImgList(imgList);
+        return   articleService.publishArticle(articleSaveDTO);
+    }
 }

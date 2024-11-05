@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
  * @Date 2024/11/1 7:17
  */
 @Data
-public class UserRegisterDto {
+public class UserRegisterDTO {
     // 用户名
     @Schema(description = "用户名")
     @Pattern(regexp = "^[a-zA-Z0-9\\u4e00-\\u9fa5]+$")

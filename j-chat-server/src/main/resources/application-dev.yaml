@@ -34,6 +34,11 @@ spring:
       email: email_routing_key
       log-login: log_routing_key_login
       log-system: log_routing_key_system
+#      设置最大文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 mybatis-plus:
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -60,6 +65,9 @@ jp-chat:
     title: 后端接口文档
     name: jp
     version: 0.1
+  article:
+    base-url: D:\a-paper-jp_chat_system\jchat\public
+    article-url: article
 logging:
   level:
     org.springframework.security: INFO
