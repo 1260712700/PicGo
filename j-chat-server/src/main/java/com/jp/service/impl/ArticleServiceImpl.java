@@ -1,5 +1,6 @@
 package com.jp.service.impl;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -7,18 +8,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jp.constants.ArticleConstant;
 import com.jp.domain.dto.ArticleSaveDTO;
-import com.jp.domain.entity.Article;
-import com.jp.domain.entity.ArticleTag;
-import com.jp.domain.entity.Tag;
-import com.jp.domain.entity.TagCategory;
+import com.jp.domain.entity.*;
 import com.jp.domain.response.ResponseResult;
 import com.jp.domain.vo.ArticleVO;
-import com.jp.mapper.ArticleTagMapper;
-import com.jp.mapper.TagCategoryMapper;
-import com.jp.mapper.TagMapper;
+import com.jp.mapper.*;
 import com.jp.service.ArticleService;
-import com.jp.mapper.ArticleMapper;
-import com.jp.utils.UserHolder;
+import com.jp.utils.SecurityUtil;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -48,6 +43,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     private TagMapper tagMapper;
     @Resource
     private TagCategoryMapper tagCategoryMapper;
+
+    @Resource
+    private ArticleCollectMapper articleCollectMapper;
+    @Resource
+    private LikeMapper likeMapper; //还有一种是评论点赞，因此不只是属于文章范畴
+    @Resource
+    private CommentMapper commentMapper;
     /**
      * 发布文章
      * @param articleSaveDTO
@@ -58,6 +60,44 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         HandleArticle(articleSaveDTO);
         return ResponseResult.success();
     }
+    /**
+     * 处理文章到数据库
+     * @param articleSaveDTO
+     */
+    private void HandleArticle(ArticleSaveDTO articleSaveDTO){
+        String cover="";
+        if(!StrUtil.isBlank(articleSaveDTO.getImages())){
+            String[] split = articleSaveDTO.getImages().split(",");
+            cover=split[0];
+        }
+        Article article= Article.builder()
+                .id(articleSaveDTO.getId().isEmpty()?null: Long.valueOf(articleSaveDTO.getId()))
+                .articleCover(cover)
+                .articleImages(articleSaveDTO.getImages())
+                .articleTitle(articleSaveDTO.getTitle())
+                .articleContent(articleSaveDTO.getContent())
+                .articleType(articleSaveDTO.getArticleType())
+                .status(articleSaveDTO.getStatus()==3? articleSaveDTO.getStatus() :articleSaveDTO.getStatus()+3 )
+                .shareCount(0L)
+                .isTop(0)
+                .visitCount(0L)
+                .isDeleted(0)
+                .categoryId(articleSaveDTO.getCategoryId()==null?12L:articleSaveDTO.getCategoryId())
+                .userId(SecurityUtil.getUserId())
+                .build();
+        List<Article> articles = handleGetDraftsArticle();//检测草稿箱是否有数据
+        if(articles.size()>0){
+            for (Article a : articles) {
+                if(articleSaveDTO.getStatus()==3){
+                    article.setId(a.getId());
+                }
+                articleMapper.updateById(article);
+                return;
+            }
+        }
+        articleMapper.insert(article);
+    }
+
     /**
      * 获取文章
      * @param type 0：获取草稿箱文章 1：获取个人所有文章 2：获取推荐文章 3：获取所有文章
@@ -82,25 +122,32 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         }
         List<ArticleVO>ret=new ArrayList<>();
         for (Article article : articleList) {
-            ArticleVO articleVO =new ArticleVO();
             List<Tag> tags = handleArticleTagsByArticleId(article.getId());
+            StringBuilder articleTag=new StringBuilder();
             if(tags!=null){
-                StringBuilder stringBuilder=new StringBuilder();
                 for (Tag tag : tags) {
-                    stringBuilder.append(tag.getTagName()).append(",");
+                    articleTag.append(tag.getTagName()).append(",");
                 }
-                stringBuilder.setLength(stringBuilder.length()-1);
-                articleVO.setTags(stringBuilder.toString());
             }
-            articleVO.setId(article.getId());
-            articleVO.setContent(article.getArticleContent());
-            articleVO.setTitle(article.getArticleTitle());
-            articleVO.setImages(article.getArticleImages());
-            articleVO.setCategoryId(article.getCategoryId());
-            articleVO.setUpdateTime(article.getUpdateTime());
-            articleVO.setCreateTime(article.getCreateTime());
-            articleVO.setStatus(article.getStatus()==3?"1": article.getStatus().toString());
-            articleVO.setArticleType(article.getArticleType().toString());
+            ArticleVO articleVO =ArticleVO.builder()
+                    .like(likeMapper.selectCount(new LambdaQueryWrapper<Like>().eq(Like::getTypeId,article.getId())))
+                    .commentCount(commentMapper.selectCount(new LambdaQueryWrapper<Comment>().eq(Comment::getTypeId,article.getId())))
+                    .shareCount(article.getShareCount())
+                    .collectCount(articleCollectMapper.selectCount(new LambdaQueryWrapper<ArticleCollect>().eq(ArticleCollect::getArticleId,article.getId())))
+                    .id(article.getId())
+                    .visitCount(article.getVisitCount())
+                    .content(article.getArticleContent())
+                    .title(article.getArticleTitle())
+                    .images(article.getArticleImages())
+                    .categoryId(article.getCategoryId())
+                    .updateTime(article.getUpdateTime())
+                    .createTime(article.getCreateTime())
+                    .status(article.getStatus()==3?"1":article.getStatus().toString())
+                    .articleType(article.getArticleType().toString())
+                    .tags(articleTag.toString())
+                    .articleCover(article.getArticleCover())
+                    .build()
+                    ;
             ret.add(articleVO);
         }
         return  ResponseResult.success(ret);
@@ -111,10 +158,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         Integer ret=0;
         switch (type){
             case ArticleConstant.DRAFTS_ARTICLE:
-                ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, UserHolder.getUser().getId()).eq(Article::getStatus, "3")));
+                ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, SecurityUtil.getUserId()).eq(Article::getStatus, "3")));
                 break;
             case ArticleConstant.PERSONAL_ARTICLE:
-                ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, UserHolder.getUser().getId())));
+                ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, SecurityUtil.getUserId())));
                 break;
             case ArticleConstant.RECOMMEND_ARTICLE:
                 break;
@@ -143,50 +190,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         return null;
     }
 
+    /**
+     * 获取个人所有文章除了草稿箱中的 status!=3
+     * @return
+     */
     private List<Article> handleGetPersonalArticle() {
         LambdaQueryWrapper<Article> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Article::getUserId,UserHolder.getUser().getId());
-        return articleMapper.selectList(lqw);
-    }
-    private List<Article> handleGetDraftsArticle() {
-        LambdaQueryWrapper<Article> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Article::getUserId,UserHolder.getUser().getId()).eq(Article::getStatus,3);
+        lqw.eq(Article::getUserId,SecurityUtil.getUserId()).ne(Article::getStatus,3);
         return articleMapper.selectList(lqw);
     }
 
     /**
-     * 处理文章到数据库
-     * @param articleSaveDTO
+     * 获取草稿箱中的文章 status=3
+     * @return
      */
-    private void HandleArticle(ArticleSaveDTO articleSaveDTO){
-        String cover="";
-        if(!StrUtil.isBlank(articleSaveDTO.getImages())){
-            String[] split = articleSaveDTO.getImages().split(",");
-            cover=split[0];
-        }
-        Article article= Article.builder()
-                .id(null)
-                .articleCover(cover)
-                .articleImages(articleSaveDTO.getImages())
-                .articleTitle(articleSaveDTO.getTitle())
-                .articleContent(articleSaveDTO.getContent())
-                .articleType(articleSaveDTO.getArticleType())
-                .status(articleSaveDTO.getStatus())
-                .isTop(0)
-                .visitCount(0L)
-                .isDeleted(0)
-                .categoryId(articleSaveDTO.getCategoryId()==null?12L:articleSaveDTO.getCategoryId())
-                .userId(UserHolder.getUser().getId())
-                .build();
-        List<Article> articles = handleGetDraftsArticle();//检测草稿箱是否有数据
-        if(articles.size()>0){
-            for (Article a : articles) {
-                article.setId(a.getId());
-                articleMapper.updateById(article);
-                return;
-            }
-        }
-        articleMapper.insert(article);
+    private List<Article> handleGetDraftsArticle() {
+        LambdaQueryWrapper<Article> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(Article::getUserId, SecurityUtil.getUserId()).eq(Article::getStatus,3);
+        return articleMapper.selectList(lqw);
     }
 
     /**

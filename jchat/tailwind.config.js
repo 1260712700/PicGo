@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      colors:{
+        'blushing-gray':'var(--blushing-gray-bg)'
+      },
       screens: {
         'sm': '640px',
         // => @media (min-width: 640px) { ... }

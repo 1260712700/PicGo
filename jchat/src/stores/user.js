@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useUserStore = defineStore('user', () => {
-    const userInfo=ref()
+    const userInfo=ref(null)
     const token=ref('')
      // 获取用户信息
      const getInfo = async () => {

@@ -37,9 +37,14 @@ public class RedisConstant {
     public static final String RESET = "reset";
 
     /**
-     * 重置密码
+     * 文章分类
      */
     public static final String ARTICLE_CATEGORY = "article:category";
+
+    /**
+     * 用户权限
+     */
+    public static final String USER_PERMISSION = "user:permission";
     /**
      * 重置邮箱
      */

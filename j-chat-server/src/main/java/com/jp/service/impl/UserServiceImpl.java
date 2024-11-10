@@ -10,15 +10,11 @@ import com.jp.domain.dto.UserResetDTO;
 import com.jp.domain.entity.*;
 import com.jp.domain.response.ResponseResult;
 import com.jp.domain.vo.UserAccountVO;
-import com.jp.domain.vo.UserDetailVO;
 import com.jp.enums.RespEnum;
 import com.jp.enums.RoleEnum;
 import com.jp.mapper.*;
 import com.jp.service.UserService;
-import com.jp.utils.AddressUtil;
-import com.jp.utils.IpUtil;
-import com.jp.utils.RedisCache;
-import com.jp.utils.SecurityUtil;
+import com.jp.utils.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +62,7 @@ public  ResponseResult<UserAccountVO> findAccountById(Long id) {
     List<String> roles = new ArrayList<>();
     // 权限
     List<String> permissions = new ArrayList<>();
+//    处理角色和权限
     userRoles.forEach(role -> {
         if (role.startsWith(SecurityConstant.ROLE_PREFIX)) {
             // 去掉前缀，添加
@@ -147,13 +144,7 @@ public  ResponseResult<UserAccountVO> findAccountById(Long id) {
         return new LoginUser(user, List.of());
     }
 
-    @Override
-    public ResponseResult<UserDetailVO> getUserInfo(Long userId) {
-        if(userId==null)return ResponseResult.failure(RespEnum.NOT_LOGIN.getCode(),RespEnum.NOT_LOGIN.getMsg());
-        User userDto = userMapper.selectById(userId);
-        UserDetailVO ret = userDto.asViewObject(UserDetailVO.class);
-        return ResponseResult.success(ret);
-    }
+
 
     /**
      * 通过邮件或者用户名查找账户

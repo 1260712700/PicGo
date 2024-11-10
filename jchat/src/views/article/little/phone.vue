@@ -36,6 +36,7 @@
         <!-- 绑定 v-model:current-index -->
         <el-carousel
           ref="carousel"
+          v-if="articleStore.saveArticle.images"
           indicator-position="outside"
           v-model:active-index="currentIndex"
           @change="handleCarouselChange"
@@ -89,7 +90,7 @@
             <el-avatar :src="avatar"  :size="24" ></el-avatar>
             <div class="comment-input rounded-xl text-little w-[80%] h-[24px] flex items-center pl-3 little-input" >喜欢就给个评论支持一下~</div>
         </div>
-        <div class="comment-show-area h-[100px] mt-auto text-center">
+        <div class="comment-show-area h-[100p] mt-auto text-center">
             <div class="msg text-little mx-auto" style="color:var(--theme-little-text-color)">
                 还没有评论哦~
             </div>

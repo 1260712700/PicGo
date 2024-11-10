@@ -14,7 +14,6 @@ export const GET_TOKEN = () => {
         ElMessage.warning('登录状态已过期，请重新登录')
         return null
     }
-
     return authObject.token
 }
 
@@ -26,7 +25,6 @@ export const SET_TOKEN = (token , expire, remember) => {
     // 是否记住密码(记住密码token存localStorage,否则存sessionStorage)
     remember ? localStorage.setItem(TOKEN_KEY, str) : sessionStorage.setItem(TOKEN_KEY, str)
     userStore.token = token
-    
 }
 
 // 移除token

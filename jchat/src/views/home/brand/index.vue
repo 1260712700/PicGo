@@ -3,7 +3,7 @@
         <div class="brand-container ">
           <div class="brand">
             <div class="art-brand">
-              {{ infoStore.targetUser.username }}的世界</div>
+              {{username}}的世界</div>
             <div class="brand-text">
               <div class="title">{{ brandTitle }}</div>
               <div class="easy-typed-cursor">&nbsp;|&nbsp;</div>
@@ -18,12 +18,16 @@
 
 <script setup>
 
-import { onBeforeUnmount, ref } from "vue";
+import { computed, onBeforeUnmount, ref } from "vue";
 import { onMounted } from "vue";
 import { useInfoStore } from "@/stores/info";
 import Wave from "@/components/wave/index.vue";
+import { useUserStore } from "@/stores/user";
 const infoStore= useInfoStore()
-
+const userStore= useUserStore()
+const username=computed(()=>{
+  return userStore.userInfo?userStore.userInfo.nickname:'TA';
+})
 onMounted(() => {
  init()
 });

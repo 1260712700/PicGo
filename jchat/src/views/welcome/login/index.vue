@@ -60,7 +60,7 @@ onMounted(()=>{
 init()
 })
 function  init(){
-
+   
 }
 const form = reactive({
   username: '',
@@ -85,7 +85,6 @@ function userLogin(){
     if (valid) {
       login(form).then(res=>{
         checkIsSuccess(res)
-        
       }).catch(err=>{
         ElMessage.error(err.msg)
       })
@@ -97,8 +96,8 @@ function checkIsSuccess(res){
     ElMessage.error(res.msg)
     return;
   }
+  ElMessage.success("登录成功")
   SET_TOKEN(res.data.token, res.data.expire, form.remember)
-  console.log(res);
      router.push('/')
      userStore.getInfo()
 }

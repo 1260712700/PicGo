@@ -19,17 +19,13 @@ http.interceptors.request.use((config) => {
     config.headers['Authorization'] = Jwt_Prefix + GET_TOKEN()
     return config;
 }, error => {
+    console.log(err);
+    
     return Promise.reject(error)
 })
 // response拦截器
 http.interceptors.response.use(
     (response) => {
-        if (response.data.data.updateTime) {
-            response.data.data.updateTime = handleDateTime(response.data.updateTime);
-          }
-          if (response.data.data.createTime) {
-            response.data.data.createTime = handleDateTime(response.data.createTime);
-          }
           if (Array.isArray(response.data.data)) {
             response.data.data.forEach(item => {
               if (item.updateTime) {

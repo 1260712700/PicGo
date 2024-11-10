@@ -3,7 +3,7 @@
         <el-tabs 
         class="tabs"
         type="border-card" 
-        v-model="activeName"  @tab-click="handleClick">
+        v-model="activeName" >
           <el-tab-pane label="发现" name="first">
             <Discover/>
           </el-tab-pane>
@@ -19,12 +19,7 @@
 import Publish from './main/publish.vue';
 import Discover from './main/discover.vue';
 import { ref } from 'vue'
-
 const activeName = ref('first')
-
-const handleClick = (tab,event) => {
-}
-
 
 </script>
 

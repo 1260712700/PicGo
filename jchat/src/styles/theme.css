@@ -10,8 +10,9 @@
   --input-bg-color:rgba(167, 164, 164, 0.3);
   /* home键颜色 */
   --home-button-color:rgb(46, 45, 45);
-
-
+  /* 虚化灰色背景 */
+  --blushing-gray-bg:rgba(167, 164, 164, 0.3);
+  /* 虚化白色背景 */
   --theme-bg-category: linear-gradient(135deg, #f54ea2, #ff7676);
   --theme-bg-wave01: rgba(240, 248, 255,0.7);
   --theme-bg-wave02: rgba(240, 248, 255,0.5);
@@ -29,6 +30,8 @@
 }
 
 html.dark {
+
+
   --theme-bg-left-message:#464647;
   --theme-bg-right-message:  #292c30;
 
@@ -37,6 +40,7 @@ html.dark {
   --theme-little-text-color: rgb(189, 186, 186);
   --input-bg-color:rgba(153, 152, 152, 0.3);
   --home-button-color:rgb(211, 210, 210);
+  --blushing-gray-bg:rgba(167, 164, 164, 0.3);
 
 
   --theme-background-color: #424242;

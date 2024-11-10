@@ -3,7 +3,6 @@ package com.jp.filter;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jp.domain.entity.LoginUser;
 import com.jp.utils.JwtUtil;
-import com.jp.utils.UserHolder;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,9 +33,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
-
-
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 提取 Header
@@ -46,7 +42,6 @@ public class JwtFilter extends OncePerRequestFilter {
         if (!ObjectUtils.isEmpty(jwt)) {
             // 获取UserDetails
             LoginUser user = (LoginUser) jwtUtil.toUser(jwt);
-            UserHolder.setUser(user.getUser());
             // 创建认证对象
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -54,7 +49,6 @@ public class JwtFilter extends OncePerRequestFilter {
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             // 验证通过，设置上下文中
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
         }
         filterChain.doFilter(request, response);
     }

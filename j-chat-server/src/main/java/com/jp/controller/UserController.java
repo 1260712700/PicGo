@@ -8,7 +8,6 @@ import com.jp.domain.dto.UserResetDTO;
 import com.jp.domain.entity.User;
 import com.jp.domain.response.ResponseResult;
 import com.jp.domain.vo.UserAccountVO;
-import com.jp.domain.vo.UserDetailVO;
 import com.jp.domain.vo.UserListVO;
 import com.jp.mapper.UserMapper;
 import com.jp.service.UserService;
@@ -38,10 +37,10 @@ public class UserController {
     public ResponseResult<Void> register(@RequestBody UserRegisterDTO userRegisterDto){
         return userService.register(userRegisterDto);
     }
-    @Operation(summary = "通过用户id获取用户数据")
-    @GetMapping("/auth/{id}")
-    public ResponseResult<UserDetailVO>getUserInfo(@PathVariable String id){
-        return userService.getUserInfo(Long.valueOf(id));
+    @Operation(summary = "获取当前登录用户的信息")
+    @GetMapping("/auth/info")
+    public ResponseResult<UserAccountVO>getUserInfo(){
+        return userService.findAccountById(SecurityUtil.getUserId());
     }
     @Operation(summary = "重置密码确认验证码")
     @PostMapping("/reset-confirm")
@@ -64,10 +63,5 @@ public class UserController {
         List<UserListVO> userListVOS = userMapper.selectList(wrapper).stream().map(user -> user.asViewObject(UserListVO.class)).toList();
         return ResponseResult.success(userListVOS);
     }
-    @Operation(summary = "获取当前登录用户信息")
-    @AccessLimit(seconds = 60, maxCount = 30)
-    @GetMapping("/auth/info")
-    public ResponseResult<UserAccountVO> getInfo() {
-        return  userService.findAccountById(SecurityUtil.getUserId());
-    }
+
 }

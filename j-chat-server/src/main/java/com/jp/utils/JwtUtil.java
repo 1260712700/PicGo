@@ -211,7 +211,12 @@ public class JwtUtil {
 //            List<RolePermission> rolePermissions = rolePermissionMapper.selectBatchIds(roles.stream().map(Role::getId).toList());
             // 查询角色权限
             List<Long> pIds = rolePermissions.stream().map(RolePermission::getPermissionId).toList();
-            List<Permission> permissions = permissionMapper.selectBatchIds(pIds);
+            List<Permission> permissions=null;
+            permissions = redisCache.getCacheList(RedisConstant.USER_PERMISSION);
+            if(permissions.isEmpty()){
+               permissions = permissionMapper.selectBatchIds(pIds);
+                redisCache.setCacheList(RedisConstant.USER_PERMISSION,permissions);
+            }
             // 组合角色，权限
             List<String> list = permissions.stream().map(Permission::getPermissionKey).collect(Collectors.toList());
             roles.forEach(role -> list.add(SecurityConstant.ROLE_PREFIX + role.getRoleKey()));

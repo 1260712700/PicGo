@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author JP
@@ -14,98 +15,40 @@ import java.util.Date;
  */
 @Data
 public class UserDetailVO {
-
-    /**
-     * 用户id
-     */
-    @TableId(type = IdType.AUTO)
+    //用户id
     private Long id;
-
-    /**
-     * 用户昵称
-     */
+    //用户昵称
     private String nickname;
-
-    /**
-     * 用户名
-     */
+    //用户名
     private String username;
-
-    /**
-     * 用户性别(0,未定义,1,男,2女)
-     */
+    // 用户角色
+    private List<String> roles;
+    //用户性别
     private Integer gender;
-
-    /**
-     * 用户密码
-     */
-    private String password;
-
-    /**
-     * 用户头像
-     */
+    //用户头像
     private String avatar;
-
-    /**
-     * 个人简介
-     */
+    //个人简介
     private String intro;
-
-    /**
-     * 用户邮箱
-     */
+    //用户邮箱
     private String email;
-
-    /**
-     * 用户最近登录时间
-     */
-    private Date loginTime;
-
-    /**
-     * 是否禁用 (0否 1是)
-     */
+    //用户注册方式(1邮箱/姓名 2Gitee 3Github)
+    private Integer registerType;
+    // 用户注册ip
+    private String registerIp;
+    // 用户注册地址
+    private String registerAddress;
+    //用户登录方式(1邮箱/姓名 2QQ 3Gitee 4Github)
+    private Integer loginType;
+    // 用户登录ip
+    private String loginIp;
+    // 登录地址
+    private String loginAddress;
+    //是否禁用 0 否 1 是
     private Integer isDisable;
-
-    /**
-     * 用户创建时间
-     */
+    //用户最近登录时间
+    private Date loginTime;
+    //用户创建时间
     private Date createTime;
-
-    /**
-     * 用户更新时间
-     */
+    //用户更新时间
     private Date updateTime;
-
-    /**
-     * 是否删除（0：未删除，1：已删除）
-     */
-    private Integer isDeleted;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", nickname=").append(nickname);
-        sb.append(", username=").append(username);
-        sb.append(", gender=").append(gender);
-        sb.append(", password=").append(password);
-        sb.append(", avatar=").append(avatar);
-        sb.append(", intro=").append(intro);
-        sb.append(", email=").append(email);
-        sb.append(", loginTime=").append(loginTime);
-        sb.append(", isDisable=").append(isDisable);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", isDeleted=").append(isDeleted);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
-
 }

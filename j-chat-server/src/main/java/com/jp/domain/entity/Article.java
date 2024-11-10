@@ -64,7 +64,7 @@ public class Article implements BaseData {
     private Integer isTop;
 
     /**
-     * 文章状态 (1公开 2私密 3草稿)
+     * 文章状态 (1公开 2私密 3草稿 4:审核中-公开 5:审核中-私密 6:未通过)
      */
     private Integer status;
 
@@ -72,6 +72,11 @@ public class Article implements BaseData {
      * 访问量
      */
     private Long visitCount;
+
+    /**
+     * 分享
+     */
+    private Long shareCount;
 
     /**
      * 文章创建时间

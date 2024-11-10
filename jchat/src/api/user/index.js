@@ -11,6 +11,9 @@ export function login(data) {
         method: 'post'
     })
 }
+export function logout(){
+    return http.post("/user/logout")
+}
 export function register(data){
     return http({
         url: '/user/register',

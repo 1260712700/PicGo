@@ -1,6 +1,6 @@
 <template>
     <div class="publish-article">
-      <div class="head  h-[45px] w-full  flex items-center    ">
+      <div class="head  h-[45px] w-full  flex items-center">
         <el-menu
     :default-active="activeIndex"
     class="el-menu-demo"
@@ -24,10 +24,14 @@
   </template>
   
   <script setup>
-
-import { ref } from 'vue'
-const activeIndex = ref('1')
-
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+const activeIndex = ref('/article/publish')
+const router= useRouter()
+// TODO 设置一个跟随路径变的索引
+onMounted(()=>{
+  router.push(activeIndex.value)
+})
   </script>
   
   <style >
