@@ -7,6 +7,11 @@
   --theme-bg-right-message:  #ebf3ff;
   /* 小文本颜色 */
   --theme-little-text-color: rgb(124, 122, 122);
+  --input-bg-color:rgba(167, 164, 164, 0.3);
+  /* home键颜色 */
+  --home-button-color:rgb(46, 45, 45);
+
+
   --theme-bg-category: linear-gradient(135deg, #f54ea2, #ff7676);
   --theme-bg-wave01: rgba(240, 248, 255,0.7);
   --theme-bg-wave02: rgba(240, 248, 255,0.5);
@@ -30,6 +35,9 @@ html.dark {
   --theme-icon-color:#ebeaea;
   
   --theme-little-text-color: rgb(189, 186, 186);
+  --input-bg-color:rgba(153, 152, 152, 0.3);
+  --home-button-color:rgb(211, 210, 210);
+
 
   --theme-background-color: #424242;
   --theme-bg-message: #f5f5f5;
@@ -62,4 +70,13 @@ body {
 .icon:hover{
   animation: jump 0.7s ease-out;
   /* opacity: 0.6; */
+}
+/* 小字体 */
+.text-little{
+  font-size: 10px;
+}
+/* 设置滚动条消失 */
+.no-scrollbar{
+  scrollbar-width: none;
+  -ms-overflow-style: none
 }

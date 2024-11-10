@@ -36,9 +36,9 @@
 import ChatRecord from '@/icon/chatRecord.vue';
 import Expression from '@/icon/expression.vue';
 import File from '@/icon/file.vue';
-import getTime from '@/utils/time';
 import { useInfoStore } from '@/stores/info';
 import { useMessageStore } from '@/stores/message';
+import { getTime } from '@/utils/time';
 import { onMounted, ref } from 'vue';
 const messageStore= useMessageStore()
 const textRaw=ref(1)//默认1行

@@ -38,13 +38,12 @@ public class ArticleVO implements BaseData {
      * 类型 (1原创 2转载 3翻译)
      */
     @Schema(description = "文章类型")
-    private Integer articleType;
+    private String articleType;
     /**
      * 文章状态 (1公开 2私密 3草稿)
      */
     @Schema(description = "文章状态")
-    private Integer status;
-
+    private String status;
     /**
      * 文章创建时间
      */

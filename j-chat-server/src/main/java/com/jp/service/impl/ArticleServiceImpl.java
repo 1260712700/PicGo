@@ -99,9 +99,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
             articleVO.setCategoryId(article.getCategoryId());
             articleVO.setUpdateTime(article.getUpdateTime());
             articleVO.setCreateTime(article.getCreateTime());
-            articleVO.setArticleType(article.getArticleType());
-            articleVO.setStatus(article.getStatus()==3?1: article.getStatus());
-            articleVO.setArticleType(article.getArticleType());
+            articleVO.setStatus(article.getStatus()==3?"1": article.getStatus().toString());
+            articleVO.setArticleType(article.getArticleType().toString());
             ret.add(articleVO);
         }
         return  ResponseResult.success(ret);
@@ -112,7 +111,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         Integer ret=0;
         switch (type){
             case ArticleConstant.DRAFTS_ARTICLE:
-                ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, UserHolder.getUser().getId()).eq(Article::getStatus, type)));
+                ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, UserHolder.getUser().getId()).eq(Article::getStatus, "3")));
                 break;
             case ArticleConstant.PERSONAL_ARTICLE:
                 ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, UserHolder.getUser().getId())));

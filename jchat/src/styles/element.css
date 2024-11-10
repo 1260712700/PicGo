@@ -1,3 +1,6 @@
 .el-tabs--border-card{
     @apply border-none rounded-md shadow-md !important;
 }
+.el-divider--horizontal{
+    @apply my-[12px] !important;
+}

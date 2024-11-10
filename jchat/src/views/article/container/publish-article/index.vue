@@ -1,95 +1,133 @@
 <template>
-  <div class="edit">
-    <!-- 标题输入框 -->
-    <div class="article-title">
-      标题
-      <el-input v-model="articleStore.saveArticle.title" placeholder="请输入标题"></el-input>
+  <div v-if="!isUpdate" class="update-picture">
+    <div v-if="articleStore.saveArticleCount>0" class="flex">
+      <div class="q text-sm h-[40px] p-[5px]">
+        检测到你有已保存的文章，请问是否继续编辑?
+      </div>
+      <div class="ml-auto">
+        <el-button type="primary" @click="continueUpdate">继续编辑</el-button>
+        <el-button type="danger" @click="giveUp">放弃</el-button>
+      </div>
     </div>
-
-    <!-- 图片上传组件 -->
-    <div>
-      <el-upload
-        :limit="9"
-        :http-request="upload"
-        :file-list="imageList"
-        :before-upload="beforeUpload"
-        list-type="picture-card"
-        :on-preview="handlePictureCardPreview"
-        :on-remove="handleRemove"
-         :on-success="handleUploadSuccess"
-        multiple
-      >
-        <el-icon><Plus /></el-icon>
-      </el-upload>
-
-      <el-dialog v-model="dialogVisible" @close="dialogVisible = false">
-        <img w-full :src="dialogImageUrl" alt="Preview Image" />
-      </el-dialog>
+    <el-upload
+     :limit="9"
+     :http-request="upload"
+     :before-upload="beforeUpload"
+     :on-success="handleUploadSuccess"
+    drag
+    multiple
+  >
+    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+    <div class="el-upload__text">
+      拖拽到这或者 <em>点击上传</em>
     </div>
-
-    <!-- 正文内容输入框 -->
-    <div class="content">
-      正文内容
-      <el-input
-        show-word-limit
-        resize="none"
-        maxlength="1500"
-        type="textarea"
-        :rows="5"
-        v-model="articleStore.saveArticle.content"
-        placeholder="请输入正文内容"
-      ></el-input>
+    <template #tip>
+      <div class="el-upload__tip">
+        jpg/png 小于100MB
+      </div>
+    </template>
+  </el-upload>
+  </div>
+  <div v-else class="w-full mt-6 flex">
+    <div  class="edit w-full">
+      <!-- 标题输入框 -->
+      <div class="article-title">
+        标题
+        <el-input v-model="articleStore.saveArticle.title" maxlength="20"  show-word-limit placeholder="请输入标题"></el-input>
+      </div>
+  
+      <!-- 图片上传组件 -->
+      <div>
+        <el-upload
+          :limit="9"
+          :http-request="upload"
+          :file-list="imageList"
+          :before-upload="beforeUpload"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+           :on-success="handleUploadSuccess"
+          multiple
+        >
+          <el-icon><Plus /></el-icon>
+        </el-upload>
+  
+        <el-dialog v-model="dialogVisible" @close="dialogVisible = false">
+          <img w-full :src="dialogImageUrl" alt="Preview Image" />
+        </el-dialog>
+      </div>
+  
+      <!-- 正文内容输入框 -->
+      <div class="content">
+        正文内容
+        <el-input
+          show-word-limit
+          resize="none"
+          maxlength="1500"
+          type="textarea"
+          :rows="5"
+          v-model="articleStore.saveArticle.content"
+          placeholder="请输入正文内容"
+        ></el-input>
+      </div>
+      <!-- 分类输入 -->
+      <div class="category">
+      
+      <el-select-v2
+      v-model="articleStore.saveArticle.categoryId"
+      :options="options"
+      placeholder="请选择分类"
+      style="width: 240px"
+    />
+      </div>
+  
+      <!-- 内容来源声明 -->
+      <div class="articleType">
+        内容来源声明
+        <el-radio-group v-model="articleStore.saveArticle.articleType">
+          <el-radio value="1" size="large">原创</el-radio>
+          <el-radio value="2" size="large">转载</el-radio>
+        </el-radio-group>
+      </div>
+  
+      <!-- 文章可见范围 -->
+      <div class="status">
+        文章可见范围
+        <el-radio-group v-model="articleStore.saveArticle.status">
+          <el-radio value="1" size="large">公开</el-radio>
+          <el-radio value="2" size="large">私密</el-radio>
+        </el-radio-group>
+      </div>
+  
+      <el-divider />
+  
+      <!-- 发布和保存按钮 -->
+      <div>
+        <el-button @click="publish" type="success">发布</el-button>
+        <el-button @click="save">保存</el-button>
+      </div>
     </div>
-    <!-- 分类输入 -->
-    <div class="category">
-    
-    <el-select-v2
-    v-model="articleStore.saveArticle.categoryId"
-    :options="options"
-    placeholder="请选择分类"
-    style="width: 240px"
-  />
-    </div>
-
-    <!-- 内容来源声明 -->
-    <div class="articleType">
-      内容来源声明
-      <el-radio-group v-model="articleStore.saveArticle.articleType">
-        <el-radio value="1" size="large">原创</el-radio>
-        <el-radio value="2" size="large">转载</el-radio>
-      </el-radio-group>
-    </div>
-
-    <!-- 文章可见范围 -->
-    <div class="status">
-      文章可见范围
-      <el-radio-group v-model="articleStore.saveArticle.status">
-        <el-radio value="1" size="large">公开</el-radio>
-        <el-radio value="2" size="large">私密</el-radio>
-      </el-radio-group>
-    </div>
-
-    <el-divider />
-
-    <!-- 发布和保存按钮 -->
-    <div>
-      <el-button @click="publish" type="success">发布</el-button>
-      <el-button @click="save">保存</el-button>
+    <div class="preview pl-[48px] w-[300px] h-full">
+      <Phone/>
     </div>
   </div>
+
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { getCategory, publishArticle } from '@/api/article';
+
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { deleteArticleById, getCategory, publishArticle } from '@/api/article';
 import { ElMessage } from 'element-plus';
 import { useArticleStore } from '@/stores/article';
 import { uploadImage } from '@/api/upload';
+import Phone from '../../little/phone.vue';
 
 // 使用状态管理
 const articleStore = useArticleStore();
 const dialogImageUrl = ref('');
 const dialogVisible = ref(false);
+const isUpdate=ref(false)
 const imageList = computed(() => {
   let list=[];
   if(articleStore.saveArticle.images){
@@ -109,7 +147,23 @@ const options =ref([])
 onMounted(() => {
   init();
 });
-
+onUnmounted(()=>{
+  if(isUpdate.value){
+    save()
+  }
+})
+function continueUpdate(){
+  isUpdate.value=true;
+}
+function giveUp(){
+  deleteArticleById(articleStore.saveArticle.id).then(res=>{
+    if(res.code==200){
+    ElMessage.success("已放弃编辑保存的文章")
+    articleStore.getSaveArticleCount();
+    articleStore.clearSaveArticle()
+    }
+  })
+}
 // 初始化方法
 function init() {
   getCategory().then(res=>{
@@ -153,8 +207,6 @@ function beforeUpload(file) {
 
   return isJPG && isLt500kb;
 }
-
-
 // 处理上传图片成功后的回调
 const handleUploadSuccess = (response, file, fileList) => {
   if (response.code === 200) {
@@ -172,6 +224,7 @@ const handleUploadSuccess = (response, file, fileList) => {
 
 // 自定义上传方法
 function upload(options) {
+  isUpdate.value=true;
   const { file, onProgress, onSuccess, onError } = options;
   // 调用上传接口
   uploadImage(file, 'article')
@@ -212,10 +265,14 @@ const publish = () => {
     ElMessage.error('请选择文章分类');
     return;
   }
+
   publishArticle(articleStore.saveArticle)
     .then(res => {
       if (res.code === 200) {
         ElMessage.success('文章上传成功');
+        articleStore.clearSaveArticle()
+        isUpdate.value=false
+        articleStore.saveArticleCount=0
       } else {
         ElMessage.error(res.msg);
       }

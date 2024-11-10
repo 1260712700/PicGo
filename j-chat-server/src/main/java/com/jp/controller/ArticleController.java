@@ -23,7 +23,6 @@ import java.util.List;
 public class ArticleController {
     @Resource
     private ArticleService articleService;
-
     /**
      * 根据类型获取文章
      * @param type 0：获取草稿箱文章 1：获取个人所有文章 2：获取推荐文章 3：获取所有文章
@@ -49,7 +48,6 @@ public class ArticleController {
     public ResponseResult<Void> saveArticle(
             @RequestBody ArticleSaveDTO articleSaveDTO
     ){
-        System.out.println(articleSaveDTO);
         return   articleService.publishArticle(articleSaveDTO);
     }
 }

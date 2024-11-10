@@ -3,8 +3,6 @@ export function getCategory(){
    return http.get("/category")
 }
 export function publishArticle(form){
-    console.log(form);
-    
     return http.post("/article/auth/publish", form);
 }
 export function getArticleByType(type){

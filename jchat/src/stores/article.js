@@ -44,22 +44,16 @@ export const useArticleStore = defineStore('article', () => {
                 if( res.data.length>0){
                     saveArticle.value=res.data[0]
             ElMessage.success("已恢复保存的文章")
-                }
+                }else{
+                    clearSaveArticle()
+           }
             }
         }).catch(err=>{
             console.log(err);
         })
     }
     function clearSaveArticle(){
-        saveArticle.value={
-            title: '',
-            content: '',
-            imgList: "",
-            tags: '', // 添加标签字段
-            categoryId:"",
-            articleType:"1",
-            status:"1"
-        }
+        saveArticle.value=defaultArticle
     }
     const articleList=reactive(
         [

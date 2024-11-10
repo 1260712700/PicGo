@@ -2,6 +2,7 @@
 import { GET_TOKEN } from '@/api/auth'
 import { Jwt_Prefix } from '@/constant/jwt'
 import axios from 'axios'
+import { handleDateTime } from './time'
 
 // 创建axios实例
 const http = axios.create({
@@ -20,10 +21,25 @@ http.interceptors.request.use((config) => {
 }, error => {
     return Promise.reject(error)
 })
-
 // response拦截器
 http.interceptors.response.use(
     (response) => {
+        if (response.data.data.updateTime) {
+            response.data.data.updateTime = handleDateTime(response.data.updateTime);
+          }
+          if (response.data.data.createTime) {
+            response.data.data.createTime = handleDateTime(response.data.createTime);
+          }
+          if (Array.isArray(response.data.data)) {
+            response.data.data.forEach(item => {
+              if (item.updateTime) {
+                item.updateTime = handleDateTime(item.updateTime);
+              }
+              if (item.createTime) {
+                item.createTime = handleDateTime(item.createTime);
+              }
+            });
+        }
         return response.data
     },
     (error) => {
