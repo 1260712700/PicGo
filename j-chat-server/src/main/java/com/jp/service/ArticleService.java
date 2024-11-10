@@ -18,4 +18,8 @@ public interface ArticleService extends IService<Article> {
     ResponseResult<Void> publishArticle(ArticleSaveDTO articleSaveDTO);
 
     ResponseResult<List<ArticleVO>> getArticleByType(String type);
+
+    ResponseResult<Integer> getArticleCount(String type);
+
+    ResponseResult<Integer> deleteArticleById(String id);
 }

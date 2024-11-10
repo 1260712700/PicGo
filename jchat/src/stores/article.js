@@ -1,7 +1,66 @@
+import { getArticleByType, getArticleCount } from '@/api/article';
+import { ElMessage } from 'element-plus';
 import { defineStore } from 'pinia';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export const useArticleStore = defineStore('article', () => {
+    const saveArticleCount=ref(0)
+    const getSaveArticleCount = async () => {
+        getArticleCount("0").then((res) => {
+            if (res.code === 200) {
+                saveArticleCount.value = res.data
+            }
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
+    const saveArticle=ref({
+        id:'',
+        title: '',
+        content: '',
+        images: "",
+        tags: '', // 添加标签字段
+        articleType:"1",
+        categoryId:"",
+        status:"1",
+        createTime:'',
+        updateTime:''
+    })
+    const defaultArticle={
+        id:'',
+        title: '',
+        content: '',
+        images: "",
+        tags: '', // 添加标签字段
+        articleType:"1",
+        categoryId:"",
+        status:"1",
+        createTime:'',
+        updateTime:''
+    }
+    const getSaveArticle = async () => {
+        getArticleByType("0").then((res) => {
+            if (res.code === 200) {
+                if( res.data.length>0){
+                    saveArticle.value=res.data[0]
+            ElMessage.success("已恢复保存的文章")
+                }
+            }
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
+    function clearSaveArticle(){
+        saveArticle.value={
+            title: '',
+            content: '',
+            imgList: "",
+            tags: '', // 添加标签字段
+            categoryId:"",
+            articleType:"1",
+            status:"1"
+        }
+    }
     const articleList=reactive(
         [
          {
@@ -79,6 +138,7 @@ export const useArticleStore = defineStore('article', () => {
              },
             ])
     return {
-        articleList,articleList2
+        articleList,articleList2,getSaveArticle,saveArticle,clearSaveArticle,saveArticleCount
+        ,getSaveArticleCount
     }
 });

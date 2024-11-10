@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 @Data
 @Schema(name = "CategoryVO", description = "文章分类VO")
-public class CategoryVO {
+public class CategoryVO implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;
     /**

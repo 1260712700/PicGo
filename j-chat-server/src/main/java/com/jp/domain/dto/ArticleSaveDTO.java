@@ -13,14 +13,22 @@ import java.util.List;
  */
 @Data
 public class ArticleSaveDTO {
+    @Schema(description = "id")
+    private String id;
     @Schema(description = "标题")
     private String title;
     @Schema(description = "正文")
      private String content;
     @Schema(description = "标签")
     private String tags;
-    @Schema(description = "图片文件")
-    private List<MultipartFile> imgList;
+    @Schema(description = "图片")
+    private String images;
+    /**
+     * 分类id
+     */
+    @Schema(description = "分类id")
+    private Long categoryId;
+
     /**
      * 类型 (1原创 2转载 3翻译)
      */

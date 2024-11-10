@@ -12,18 +12,18 @@ public class ArticleConstant {
     /**
      * 获取草稿箱文章
      */
-    public static final String GET_DRAFTS_ARTICLE = "0";
+    public static final String DRAFTS_ARTICLE = "0";
     /**
      * 获取个人文章
      */
-    public static final String GET_PERSONAL_ARTICLE = "1";
+    public static final String PERSONAL_ARTICLE = "1";
     /**
      * 获取推荐给个人的文章
      */
-    public static final String GET_RECOMMEND_ARTICLE = "2";
+    public static final String RECOMMEND_ARTICLE = "2";
     /**
      * 获取所有文章
      */
-    public static final String GET_ALL_ARTICLE = "3";
+    public static final String ALL_ARTICLE = "3";
 
 }

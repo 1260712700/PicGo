@@ -67,7 +67,7 @@ jp-chat:
     version: 0.1
   article:
     base-url: D:\a-paper-jp_chat_system\jchat\public
-    article-url: article
+    article-url: \article
 logging:
   level:
     org.springframework.security: INFO

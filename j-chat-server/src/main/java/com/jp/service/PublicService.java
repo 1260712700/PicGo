@@ -1,7 +1,9 @@
 package com.jp.service;
 
 import com.jp.domain.response.ResponseResult;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,4 +28,6 @@ public interface PublicService {
      * @param content 邮箱内容
      */
     ResponseResult<Void> sendEmail(String type, String email, Map<String, Object> content);
+
+    ResponseResult<String> uploadImage(List<MultipartFile> images, String type);
 }

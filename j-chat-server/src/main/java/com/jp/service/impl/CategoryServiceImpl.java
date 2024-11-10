@@ -28,11 +28,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
     private RedisCache redisCache;
     @Override
     public ResponseResult<List<CategoryVO>> getCategory() {
+        List<CategoryVO> cacheList = redisCache.getCacheList(RedisConstant.ARTICLE_CATEGORY);
+        if(!cacheList.isEmpty()){
+            return ResponseResult.success(cacheList);
+        }
         List<Category> categories = categoryMapper.selectList(null);
         List<CategoryVO>ret=new ArrayList<>();
         for (Category category : categories) {
             ret.add(category.asViewObject(CategoryVO.class));
         }
+        redisCache.setCacheList(RedisConstant.ARTICLE_CATEGORY,ret);
         return ResponseResult.success(ret);
     }
 }

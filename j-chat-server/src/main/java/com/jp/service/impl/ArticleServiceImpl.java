@@ -2,6 +2,7 @@ package com.jp.service.impl;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jp.constants.ArticleConstant;
@@ -40,10 +41,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     implements ArticleService{
     @Resource
     private  ArticleMapper articleMapper;
-    @Value("${jp-chat.article.base-url}")
-    private String uploadBaseUrl;
-    @Value("${jp-chat.article.article-url}")
-    private String uploadArticleUrl;
+
+    @Resource
+    private ArticleTagMapper articleTagMapper;
+    @Resource
+    private TagMapper tagMapper;
+    @Resource
+    private TagCategoryMapper tagCategoryMapper;
     /**
      * 发布文章
      * @param articleSaveDTO
@@ -51,14 +55,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
      */
     @Override
     public ResponseResult<Void> publishArticle(ArticleSaveDTO articleSaveDTO) {
-        //获取一个新的图片名字集合
-        StringBuilder newImgNameList  = handleImgList(articleSaveDTO);
-        //根据标签获取文章分类
-        Long categoryId = handleCategory(articleSaveDTO.getTags());
-        HandleArticle(newImgNameList,articleSaveDTO,categoryId);
-        if(articleSaveDTO.getStatus()!=3){
-           handleUploadLocal(articleSaveDTO,uploadBaseUrl,newImgNameList);
-       }
+        HandleArticle(articleSaveDTO);
         return ResponseResult.success();
     }
     /**
@@ -70,15 +67,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     public ResponseResult<List<ArticleVO>> getArticleByType(String type) {
         List<Article>articleList=new ArrayList<>();
         switch (type){
-            case ArticleConstant.GET_DRAFTS_ARTICLE:
+            case ArticleConstant.DRAFTS_ARTICLE:
                 articleList= handleGetDraftsArticle();
                 break;
-            case ArticleConstant.GET_PERSONAL_ARTICLE:
+            case ArticleConstant.PERSONAL_ARTICLE:
                 articleList=handleGetPersonalArticle();
                 break;
-            case ArticleConstant.GET_RECOMMEND_ARTICLE:
+            case ArticleConstant.RECOMMEND_ARTICLE:
                 break;
-            case ArticleConstant.GET_ALL_ARTICLE:
+            case ArticleConstant.ALL_ARTICLE:
                 break;
             default:
               return  ResponseResult.failure("系统错误");
@@ -86,9 +83,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         List<ArticleVO>ret=new ArrayList<>();
         for (Article article : articleList) {
             ArticleVO articleVO =new ArticleVO();
-            articleVO.setContent(article.getArticleContent());
-            articleVO.setTitle(article.getArticleTitle());
-
             List<Tag> tags = handleArticleTagsByArticleId(article.getId());
             if(tags!=null){
                 StringBuilder stringBuilder=new StringBuilder();
@@ -98,16 +92,49 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
                 stringBuilder.setLength(stringBuilder.length()-1);
                 articleVO.setTags(stringBuilder.toString());
             }
-            articleVO.setArticleImages(article.getArticleImages());
+            articleVO.setId(article.getId());
+            articleVO.setContent(article.getArticleContent());
+            articleVO.setTitle(article.getArticleTitle());
+            articleVO.setImages(article.getArticleImages());
+            articleVO.setCategoryId(article.getCategoryId());
+            articleVO.setUpdateTime(article.getUpdateTime());
+            articleVO.setCreateTime(article.getCreateTime());
+            articleVO.setArticleType(article.getArticleType());
+            articleVO.setStatus(article.getStatus()==3?1: article.getStatus());
+            articleVO.setArticleType(article.getArticleType());
             ret.add(articleVO);
         }
         return  ResponseResult.success(ret);
     }
-    @Resource
+
+    @Override
+    public ResponseResult<Integer> getArticleCount(String type) {
+        Integer ret=0;
+        switch (type){
+            case ArticleConstant.DRAFTS_ARTICLE:
+                ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, UserHolder.getUser().getId()).eq(Article::getStatus, type)));
+                break;
+            case ArticleConstant.PERSONAL_ARTICLE:
+                ret= Math.toIntExact(articleMapper.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getUserId, UserHolder.getUser().getId())));
+                break;
+            case ArticleConstant.RECOMMEND_ARTICLE:
+                break;
+            case ArticleConstant.ALL_ARTICLE:
+                break;
+            default:
+                return  ResponseResult.failure("系统错误");
+    }
+    return ResponseResult.success(ret);
+    }
+
+    @Override
+    public ResponseResult<Integer> deleteArticleById(String id) {
+        return ResponseResult.success(articleMapper.deleteById(id));
+    }
+
     /**
      * 根据文章id获取该文章的标签
      */
-    private ArticleTagMapper articleTagMapper;
     private  List<Tag> handleArticleTagsByArticleId(Long id) {
         LambdaQueryWrapper<ArticleTag> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ArticleTag::getArticleId,id);
@@ -127,75 +154,21 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         lqw.eq(Article::getUserId,UserHolder.getUser().getId()).eq(Article::getStatus,3);
         return articleMapper.selectList(lqw);
     }
-    /**
-     * 处理图片集合
-     * @param articleSaveDTO
-     * @return
-     */
-    private StringBuilder handleImgList(ArticleSaveDTO articleSaveDTO) {
-        String randomNumber = RandomUtil.randomNumbers(1);
-        StringBuilder newImgNameList=new StringBuilder();
-        if(articleSaveDTO.getImgList()==null){
-            return newImgNameList;
-        }
-        for (int i = 0; i < articleSaveDTO.getImgList().size(); i++) {
-            MultipartFile file= articleSaveDTO.getImgList().get(i);
-            // 生成 UUID 作为文件名
-            String uuid = UUID.randomUUID().toString();
-            // 获取文件扩展名
-            String originalFilename = file.getOriginalFilename();
-            String extension = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
-            // 构建新的文件名
-            String newFilename = uuid + extension;
-            String imgUrl=uploadArticleUrl+ ArticleConstant.SEPARATOR+ randomNumber + ArticleConstant.SEPARATOR+newFilename;
-            newImgNameList.append(imgUrl).append(",");
-        }
-        newImgNameList.setLength(newImgNameList.length()-1);
-        return newImgNameList;
-    }
-    /**
-     * 将图片上传到本地
-     * @param articleSaveDTO
-     * @param uploadBaseUrl
-     * @param newImgNameList
-     */
-    private void handleUploadLocal(ArticleSaveDTO articleSaveDTO, String uploadBaseUrl, StringBuilder newImgNameList) {
-        String[] split = newImgNameList.toString().split(",");
-        for (int i = 0; i < split.length; i++) {
-            File dest = new File(uploadBaseUrl+ ArticleConstant.SEPARATOR+split[i]);
-            File destDir = dest.getParentFile();
-            if (!destDir.exists() && !destDir.mkdirs()) {
-                throw new RuntimeException("Failed to create directories: " + destDir);
-            }
-            try (InputStream fis = articleSaveDTO.getImgList().get(i).getInputStream();
-            FileOutputStream fos = new FileOutputStream(dest)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = fis.read(buffer)) != -1) {
-                    fos.write(buffer, 0, bytesRead);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    @Resource
-    private TagMapper tagMapper;
-    @Resource
-    private TagCategoryMapper tagCategoryMapper;
 
     /**
      * 处理文章到数据库
-     * @param imgList
      * @param articleSaveDTO
-     * @param categoryId
      */
-    private void HandleArticle(StringBuilder imgList, ArticleSaveDTO articleSaveDTO, Long categoryId){
-        String[] split = imgList.toString().split(",");
+    private void HandleArticle(ArticleSaveDTO articleSaveDTO){
+        String cover="";
+        if(!StrUtil.isBlank(articleSaveDTO.getImages())){
+            String[] split = articleSaveDTO.getImages().split(",");
+            cover=split[0];
+        }
         Article article= Article.builder()
                 .id(null)
-                .articleCover(split[0])
-                .articleImages(imgList.toString())
+                .articleCover(cover)
+                .articleImages(articleSaveDTO.getImages())
                 .articleTitle(articleSaveDTO.getTitle())
                 .articleContent(articleSaveDTO.getContent())
                 .articleType(articleSaveDTO.getArticleType())
@@ -203,7 +176,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
                 .isTop(0)
                 .visitCount(0L)
                 .isDeleted(0)
-                .categoryId(categoryId)
+                .categoryId(articleSaveDTO.getCategoryId()==null?12L:articleSaveDTO.getCategoryId())
                 .userId(UserHolder.getUser().getId())
                 .build();
         List<Article> articles = handleGetDraftsArticle();//检测草稿箱是否有数据

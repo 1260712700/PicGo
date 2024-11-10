@@ -34,14 +34,22 @@ public class ArticleController {
     public ResponseResult<List<ArticleVO>> getArticleByType(@PathVariable String type){
        return articleService.getArticleByType(type);
     }
-
+    @GetMapping("/auth/count/{type}")
+    @Operation(summary = "获取文章统计")
+    public ResponseResult<Integer> getArticleCount(@PathVariable String type){
+        return articleService.getArticleCount(type);
+    }
+    @DeleteMapping("/auth/{id}")
+    @Operation(summary = "删除文章")
+    public ResponseResult<Integer> deleteArticleById(@PathVariable String id){
+        return articleService.deleteArticleById(id);
+    }
     @PostMapping("/auth/publish")
     @Operation(summary = "发布文章")
     public ResponseResult<Void> saveArticle(
-            @ModelAttribute ArticleSaveDTO articleSaveDTO,
-     @RequestParam(value = "imgList",required = false) List<MultipartFile> imgList
+            @RequestBody ArticleSaveDTO articleSaveDTO
     ){
-        articleSaveDTO.setImgList(imgList);
+        System.out.println(articleSaveDTO);
         return   articleService.publishArticle(articleSaveDTO);
     }
 }

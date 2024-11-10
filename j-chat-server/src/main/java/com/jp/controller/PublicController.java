@@ -11,10 +11,10 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 公共接口
@@ -46,4 +46,22 @@ public class PublicController {
     ) {
         return publicService.registerEmailVerifyCode(type, email);
     }
+
+    /**
+     * 图片上传
+     */
+    @Operation(summary = "图片上传")
+    @Parameters({
+            @Parameter(name = "images", description = "图片", required = true),
+            @Parameter(name = "type", description = "图片类型", required = true)
+    })
+    @AccessLimit(seconds = 1, maxCount = 1)
+    @PostMapping("/auth/upload")
+    public ResponseResult<String> uploadImage(
+            @RequestParam List<MultipartFile> images,
+            @RequestParam @Pattern(regexp = "(article|avatar)",message = "图片类型错误" ) String type
+    ) {
+        return publicService.uploadImage(images, type);
+    }
+
 }
