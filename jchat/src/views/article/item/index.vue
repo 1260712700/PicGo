@@ -3,19 +3,19 @@
       @click="articleActive(item.id)"
       @mouseenter="enLargeImage" @mouseleave="reduceImage"
       class="article-box  shadow-lg h-full  rounded-md my-[16px]">
-      <div v-if="isPC" class="pc h-[240px]   w-full flex">
+      <div class="pc h-[240px]   w-full flex">
         <div class="left h-[240px] w-[50%]">
-          <Content v-if="direction" />
-        <Image :ref="el=>setImageRef(el)" v-else :bg-cover="bgCover" :loading="loading"/>
+          <Content :item="item" v-if="direction" />
+        <Image :ref="el=>setImageRef(el)" v-else :item="item" />
         </div>
         <div class="right h-[240px] w-[50%]">
-        <Image :ref="el=>setImageRef(el)" v-if="direction" :bg-cover="bgCover" :loading="loading"/>
-        <Content v-else/>
+        <Image :ref="el=>setImageRef(el)" v-if="direction" :item="item" />
+        <Content :item="item" v-else/>
           <div>
           </div>
         </div>
       </div>
-      <div v-else class="mobile  h-[400px] w-full">
+      <!-- <div v-else class="mobile  h-[400px] w-full">
         <div class="top h-[200px] w-full">
         <Image :ref="el=>setImageRef(el)" :bg-cover="bgCover" :loading="loading"/>
         </div>
@@ -24,7 +24,7 @@
           <div>
           </div>
         </div>
-      </div> 
+      </div>  -->
   
     </div>
   
@@ -49,19 +49,9 @@ const settingStore= useSettingStore()
    const direction=computed(()=>{
       return props.index%2==0?true:false
    })
-  const bgCover=ref('')
   onMounted(()=>{
-    init()
   })
-  function init(){
-    // 懒加载
-    lazyLoading(articleRef.value,()=>{
-      setTimeout(()=>{
-        loading.value=false
-          bgCover.value=props.item.articleCover
-      },4000)
-    })
-  }
+  
   // 加载图片
  
   const router = useRouter()

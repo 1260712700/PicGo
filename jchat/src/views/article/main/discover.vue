@@ -1,19 +1,17 @@
 <template>
-    <div class="article-head h-[38px] w-full  rounded-md flex items-center  pl-3 space-x-4 shadow-md">
-        <div  @click="chooseCategory(index)"  v-for="(item,index) in categoryStore.category" :key="index">
-            <button :ref="el=>setCategory(el,index)" class="category-button">
+    <div class="article-head h-auto w-full mt-2 flex items-center flex-wrap">
+        <button class="py-1 px-2 mr-4  w-[50px] mb-2 text-center flex-nowrap whitespace-nowrap  bg-blushing-gray hover:opacity-40 rounded-md" @click="handleArticleList(item.id)" v-for="(item,index) in categoryStore.categoryList" :key="index">
                 {{ item.categoryName }}
-            </button>
-        </div>
+        </button>
     </div>
     <div class="article-list">
         <div
         class="w-full "
-        v-for="(item,index) in articleList" :key="index">
+        v-for="(item,index) in articleStore.homeArticleList" :key="index">
             <ArticleItem :item="item" :index="index"/>
         </div>
     </div>
-      
+    <el-pagination layout="prev, pager, next" :total="articleStore.page.pages*10" />
      
 </template>
 
@@ -24,35 +22,12 @@ import { onMounted, ref } from 'vue';
 import { useCategoryStore } from '@/stores/category';
 const categoryStore= useCategoryStore()
 const articleStore= useArticleStore()
-const articleList=ref('')
 onMounted(()=>{
-    categoryStore.getInfo()
-    setTimeout(() => {
-        categoryRefList.value[0].className='category-is-choose'
-    }, 100);
-    articleList.value=articleStore.articleList
 })
-const categoryRefList=ref([])
-function setCategory(el,index){
-    categoryRefList.value[index]=el
-}
-
-const categoryIndex=ref(0)
-function chooseCategory(index){
-    categoryRefList.value[categoryIndex.value].className='category-button'
-    categoryIndex.value=index
-       categoryRefList.value[categoryIndex.value].className='category-is-choose'
+function handleArticleList(id){
 }
 </script>
 
 <style  scoped>
-.category-button{
-    opacity: 1;
-}
-.category-button:hover{
-    opacity: 0.55;
-}
-.category-is-choose{
-    opacity: 0.55;
-}
+
 </style>

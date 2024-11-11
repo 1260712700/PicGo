@@ -1,4 +1,4 @@
-import { getArticleByType, getArticleCount } from '@/api/article';
+import { getArticleByCategory, getArticleByType, getArticleCountByType } from '@/api/article';
 import { ElMessage } from 'element-plus';
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
@@ -6,24 +6,27 @@ import { reactive, ref } from 'vue';
 export const useArticleStore = defineStore('article', () => {
     const saveArticleCount=ref(0)//保存文章的计数
     const isUpdate=ref(false)//是否进入编辑模式
-    const getSaveArticleCount = async () => {
-        getArticleCount("0").then((res) => {
+    const homeArticleList=ref([])
+    const personalArticleList=ref([])
+    const page=ref({
+        total:1,
+        size:1,
+        current:1,
+        pages:1
+    })
+    function setPage(data){
+        page.value.total=data.total
+        page.value.size=data.size
+        page.value.current=data.current
+        page.value.pages=data.pages
+    }
+ 
+    const getArticleCount = async (type) => {
+        getArticleCountByType(type).then((res) => {
             if (res.code === 200) {
                 saveArticleCount.value = res.data
-            }
-        }).catch(err=>{
-            console.log(err);
-        })
-    }
-    const articleList=ref([])
-    async function  getArticleList(type) {
-        getArticleByType(type).then((res) => {
-            if (res.code === 200) {
-                if( res.data.length>0){
-                    articleList.value=res.data
-                }else{
-                    clearSaveArticle()
-           }
+            }else{
+                ElMessage.error(res.msg)
             }
         }).catch(err=>{
             console.log(err);
@@ -43,17 +46,15 @@ export const useArticleStore = defineStore('article', () => {
         updateTime:''
     })
     const getSaveArticle = async () => {
-        getArticleByType("0").then((res) => {
+        getArticleByType("0",1,1).then((res) => {
             if (res.code === 200) {
                 if( res.data.length>0){
                     saveArticle.value=res.data[0]
-            ElMessage.success("已恢复保存的文章")
-                }else{
-                    clearSaveArticle()
-           }
+                 ElMessage.success("已恢复保存的文章")
+                }
             }
         }).catch(err=>{
-            console.log(err);
+            ElMessage.error(err.msg)
         })
     }
     function clearSaveArticle(){
@@ -70,36 +71,8 @@ export const useArticleStore = defineStore('article', () => {
             updateTime:''
         }
     }
-
-        const articleList2=reactive(
-            [
-             {
-                 id:'1',
-                 userId:'001',
-                 articleCover:'/bg/1/car_station.jpg',
-                 articleImage:[ 
-                     '/bg/2/Your_name_misiha.png',
-                     "/bg/2/cloud.jpg",
-                     "/bg/2/dusk_girl.jpg",
-                     "/bg/2/dusk_girl2.jpg",
-                     "/bg/2/castle.jpg",
-                     "/bg/2/sea_girl.jpg",
-                    ],
-                     content:'作者有话说。。。。',
-                 categoryId : -1,
-                 articleTitle:'关注文章',
-                 articleAbstract:  '作者有话说',
-                 is_top:0,
-                 isRecommend: 0,
-                 is_delete: 0  ,
-                 status :1 ,
-                 type :1 ,
-                 createTime :'2024-10-6 22:06:00',
-                 updateTime: '2024-10-6 22:06:00' 
-             },
-            ])
     return {
-        articleList2,getSaveArticle,saveArticle,clearSaveArticle,saveArticleCount
-        ,getSaveArticleCount,isUpdate,isPublish,articleList,getArticleList
+        getSaveArticle,saveArticle,clearSaveArticle,saveArticleCount
+        ,getArticleCount,isUpdate,isPublish,personalArticleList,homeArticleList,page
     }
 });

@@ -128,7 +128,6 @@ function handleDelete(id){
         deleteArticleById(id).then(res=>{
         if(res.code==200){
         ElMessage.success("删除成功")
-        articleStore.getArticleList("1")
         }
         })
     })

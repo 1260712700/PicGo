@@ -1,5 +1,6 @@
 package com.jp.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jp.domain.dto.ArticleSaveDTO;
 import com.jp.domain.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -17,9 +18,11 @@ public interface ArticleService extends IService<Article> {
 
     ResponseResult<Void> publishArticle(ArticleSaveDTO articleSaveDTO);
 
-    ResponseResult<List<ArticleVO>> getArticleByType(String type);
+    ResponseResult<Page<ArticleVO>> getArticleByType(String type, Integer pageNum, Integer pageSize);
 
     ResponseResult<Integer> getArticleCount(String type);
 
     ResponseResult<Integer> deleteArticleById(String id);
+
+    ResponseResult<Page<ArticleVO>> getArticleByCategoryId(String categoryId,boolean condition,Integer pageNum,Integer pageSize);
 }

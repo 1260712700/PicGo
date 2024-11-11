@@ -3,8 +3,8 @@
         <div class="head">
             <el-tabs v-model="activeName" tab-position="left" @tab-click="handleClick">
                 <el-tab-pane label="全部笔记" name="first">
-                    <div class="w-full text-right text-sm">共有{{articleStore.articleList.length}}篇文章</div>
-                    <div class="article"  v-for="(item,index) in articleStore.articleList" :key="index">
+                    <div class="w-full text-right text-sm">共有{{articleStore.personalArticleList.length}}篇文章</div>
+                    <div class="article"  v-for="(item,index) in articleStore.personalArticleList" :key="index">
                     <ArticleItem :item="item"/>
                     </div>
                   
@@ -19,7 +19,7 @@
 
 <script setup>
 
-import { deleteArticleById } from '@/api/article';
+import { deleteArticleById, getArticleByCategory, getArticleByType } from '@/api/article';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { onMounted, ref } from 'vue';
 
@@ -29,43 +29,19 @@ import ArticleItem from '../../item/article-item.vue';
 
 const activeName = ref('first')
 const router= useRouter()
-
 const articleStore= useArticleStore()
 onMounted(()=>{
    init()
 })
 function  init(){
-   articleStore.getArticleList("1")
-}
-function handleUpdate(article){
-    articleStore.isPublish=true
-    articleStore.isUpdate=true
-    articleStore.saveArticle=article
-    router.push('/article/publish')
-}
-function handleDelete(id){
-    ElMessageBox.confirm(
-        '确定删除该文章吗',
-        '删除文章',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-        }
-      ) .then(() => {
-        deleteArticleById(id).then(res=>{
-        if(res.code==200){
-        ElMessage.success("删除成功")
-        init()
-        }
-        })
-    })
-    .catch(() => {
-    
-    })
+  getArticleByType("1",1,4).then(res=>{
+    if(res.code===200){
+    articleStore.personalArticleList=res.data.records
+    }
+  })
 }
 function handleClick(tabs,event){
-    
+  
 }
 </script>
 

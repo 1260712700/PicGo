@@ -103,11 +103,14 @@ import { ElMessage } from 'element-plus';
 import { useArticleStore } from '@/stores/article';
 import { uploadImage } from '@/api/upload';
 import Phone from '../../little/phone.vue';
+import { useCategoryStore } from '@/stores/category';
 
 // 使用状态管理
 const articleStore = useArticleStore();
 const dialogImageUrl = ref('');
 const dialogVisible = ref(false);
+const categoryStore= useCategoryStore()
+
 const imageList = computed(() => {
   let list = [];
   if (articleStore.saveArticle.images) {
@@ -146,25 +149,20 @@ function giveUp() {
   deleteArticleById(articleStore.saveArticle.id).then(res => {
     if (res.code == 200) {
       ElMessage.success("已放弃编辑保存的文章")
-      articleStore.getSaveArticleCount();
+      articleStore.getArticleCount("0");
       articleStore.clearSaveArticle()
     }
   })
 }
 // 初始化方法
 function init() {
-  getCategory().then(res => {
-    if (res.code == 200) {
-      options.value = res.data.map(category => ({
+   options.value = categoryStore.categoryList.map(category => ({
         value: category.id,   // 分类ID
         label: category.categoryName  // 分类名称
-      }));
-    }
-  })
-  articleStore.getSaveArticleCount();
+  }))
+  articleStore.getArticleCount("0");
 }
 function beforeRemove(uploadFile, uploadFiles) {
-
   if (uploadFiles.length <= 1) {
     ElMessage.error("文章至少有一张图哦")
     return false;

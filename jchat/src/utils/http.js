@@ -3,6 +3,7 @@ import { GET_TOKEN } from '@/api/auth'
 import { Jwt_Prefix } from '@/constant/jwt'
 import axios from 'axios'
 import { handleDateTime } from './time'
+import { ElMessage } from 'element-plus'
 
 // 创建axios实例
 const http = axios.create({
@@ -19,8 +20,6 @@ http.interceptors.request.use((config) => {
     config.headers['Authorization'] = Jwt_Prefix + GET_TOKEN()
     return config;
 }, error => {
-    console.log(err);
-    
     return Promise.reject(error)
 })
 // response拦截器

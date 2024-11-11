@@ -3,7 +3,7 @@
         <el-tabs 
         class="tabs"
         type="border-card" 
-        v-model="activeName" >
+        v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="发现" name="first">
             <Discover/>
           </el-tab-pane>
@@ -11,7 +11,6 @@
             <Publish/>
           </el-tab-pane>
         </el-tabs>
-    
     </div>
 </template>
 
@@ -19,8 +18,17 @@
 import Publish from './main/publish.vue';
 import Discover from './main/discover.vue';
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 const activeName = ref('first')
-
+const router= useRouter()
+function handleClick(tabs,event){
+  if(tabs.props.name==='first'){
+    router.push('/')
+  }
+  if(tabs.props.name==='second'){
+    router.push('/article/publish')
+  }
+}
 </script>
 
 <style  >

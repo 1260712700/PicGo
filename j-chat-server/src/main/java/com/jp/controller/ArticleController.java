@@ -1,5 +1,6 @@
 package com.jp.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jp.domain.dto.ArticleSaveDTO;
 import com.jp.domain.entity.Article;
 import com.jp.domain.response.ResponseResult;
@@ -24,15 +25,39 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
     /**
-     * 根据类型获取文章
-     * @param type 0：获取草稿箱文章 1：获取个人所有文章 2：获取推荐文章 3：获取所有文章
+     * 根据类型获取文章，支持分页
+     * @param type 0：获取草稿箱文章 1：获取个人所有文章 2：获取推荐文章 3：获取所有文章 4:获取审核中公开文章 5：获取审核中私人文章
+     * @param pageNum 当前页
+     * @param pageSize 每页条数
      * @return
      */
-    @GetMapping("/auth/{type}")
-    @Operation(summary = "获取文章")
-    public ResponseResult<List<ArticleVO>> getArticleByType(@PathVariable String type){
-       return articleService.getArticleByType(type);
+    @GetMapping("/auth/type/{type}")
+    @Operation(summary = "根据类型获取文章")
+    public ResponseResult<Page<ArticleVO>> getArticleByType(
+            @PathVariable String type,
+            @RequestParam("pageNum") int pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "5") int pageSize
+    ) {
+        return articleService.getArticleByType(type, pageNum, pageSize);
     }
+
+    /**
+     * 根据文章分类获取文章，未认证只能获取公开的，支持分页
+     * @param categoryId 文章分类id
+     * @param pageNum 当前页
+     * @param pageSize 每页条数
+     * @return
+     */
+    @GetMapping("/category/{categoryId}")
+    @Operation(summary = "根据分类获取文章")
+    public ResponseResult<Page<ArticleVO>> getArticleByCategory(
+            @PathVariable String categoryId,
+            @RequestParam("pageNum") int pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "5") int pageSize
+    ) {
+        return articleService.getArticleByCategoryId(categoryId, true, pageNum, pageSize);
+    }
+
     @GetMapping("/auth/count/{type}")
     @Operation(summary = "获取文章统计")
     public ResponseResult<Integer> getArticleCount(@PathVariable String type){
