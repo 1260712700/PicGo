@@ -42,6 +42,11 @@ public class UserController {
     public ResponseResult<UserAccountVO>getUserInfo(){
         return userService.findAccountById(SecurityUtil.getUserId());
     }
+    @Operation(summary = "获取其他用户的信息")
+    @GetMapping("/info/{userId}")
+    public ResponseResult<UserAccountVO>getOtherUserInfo(@PathVariable String userId){
+        return userService.findAccountById(Long.valueOf(userId));
+    }
     @Operation(summary = "重置密码确认验证码")
     @PostMapping("/reset-confirm")
     public ResponseResult<Void> reset(@RequestBody UserResetDTO userResetDto){

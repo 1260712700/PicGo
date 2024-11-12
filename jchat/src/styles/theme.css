@@ -26,12 +26,10 @@
   --theme-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   --scroll-bar-color: linear-gradient(135deg,#17ead9,#6078ea);
   --email: url('/icon/1/email-light.svg');
-  --trademark:url('tea-light.png')
+
+  --trademark:url('/tea-light.png')
 }
-
 html.dark {
-
-
   --theme-bg-left-message:#464647;
   --theme-bg-right-message:  #292c30;
 
@@ -60,27 +58,6 @@ html.dark {
   --theme-scroll-percentage-bar: linear-gradient(135deg,#5b247a,#1bcedf);
   --scroll-bar-color: linear-gradient(135deg,#43cbff,#9708cc);
   --email: url('/icon/1/email-dark.svg');
-  --trademark:url('tea-dark.png');
+  --trademark:url('/tea-dark.png');
 }
 
-body {
-  /* 将 body 元素或者任何其他你想要应用该字体的元素设置为 '阿里妈妈方圆体 VF Regular' */
-  font-family: "阿里妈妈方圆体 VF Regular", sans-serif;
-  /* 当自定义字体尚未加载时提供一个备选字体（在这个例子中是无衬线字体） */
-}
-.icon{
-  @apply h-full w-full transition-colors duration-700
-}
-.icon:hover{
-  animation: jump 0.7s ease-out;
-  /* opacity: 0.6; */
-}
-/* 小字体 */
-.text-little{
-  font-size: 10px;
-}
-/* 设置滚动条消失 */
-.no-scrollbar{
-  scrollbar-width: none;
-  -ms-overflow-style: none
-}

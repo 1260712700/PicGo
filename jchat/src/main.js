@@ -10,10 +10,12 @@ import router from './router'
 // 引入全局注册组件
 import globalComponent from '@/components/index.js'
 
+
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
   }
+
 app.use(createPinia())
 app.use(router)
 app.use(ElementPlus,{

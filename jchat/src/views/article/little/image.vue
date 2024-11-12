@@ -15,9 +15,9 @@
       </template>
       <template #default>
         <img
-          class="h-full w-full object-cover transition-all duration-700"
+          class="h-full w-full object-cover transition-all duration-700 hardware-speedup"
           :ref="setArticleImageListRef"
-          :src="bgCover"
+          :src="item.articleCover"
           @load="handleImageLoad"
         >
       </template>
@@ -39,10 +39,10 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  lazyLoading(imageRef.value, () => {
-    // 图片进入视口，开始加载图片 URL
-    bgCover.value = props.item.articleCover;
-  });
+  // lazyLoading(imageRef.value, () => {
+  //   // 图片进入视口，开始加载图片 URL
+  //   bgCover.value = props.item.articleCover;
+  // });
 });
 
 // 暴露给父组件的方法

@@ -1,6 +1,22 @@
 .el-tabs--border-card{
     @apply border-none rounded-md shadow-md !important;
 }
+/* 分割线 */
 .el-divider--horizontal{
     @apply my-[12px] !important;
 }
+/* 页头的返回样式 */
+
+
+/* 文章领域中的内容 */
+.article-area .el-dialog{
+    transform: translate3d(0,0,0);
+    @apply p-0 h-[90%] w-[60%] !important;
+}
+.article-area  .el-dialog__body{
+    @apply p-0 h-full w-full !important;
+}
+.article-area  .el-dialog__header{
+    @apply hidden  !important;
+}
+

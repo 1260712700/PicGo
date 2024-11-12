@@ -18,9 +18,7 @@
 </template>
 
 <script setup>
-import { useInfoStore } from '@/stores/info';
 
-const infoStore= useInfoStore()
 </script>
 
 <style lang="scss" scoped>

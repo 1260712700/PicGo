@@ -56,7 +56,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     public ResponseResult<Void> publishArticle(ArticleSaveDTO articleSaveDTO) {
         Article article = HandleArticle(articleSaveDTO);
         //检测草稿箱是否有数据
-        List<Article> articles = articleMapper.selectList(new LambdaQueryWrapper<Article>().eq(Article::getId,SecurityUtil.getUserId()));
+        List<Article> articles = articleMapper.selectList(new LambdaQueryWrapper<Article>()
+                .eq(Article::getUserId,SecurityUtil.getUserId())
+                .eq(Article::getStatus,3)
+        );
         if(articles.size()>0){
             for (Article a : articles) {
                 if(articleSaveDTO.getStatus()==3){
@@ -186,6 +189,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
             }
         }
         return ArticleVO.builder()
+                .userId(article.getUserId())
                 .like(likeMapper.selectCount(new LambdaQueryWrapper<Like>().eq(Like::getTypeId,article.getId())))
                 .commentCount(commentMapper.selectCount(new LambdaQueryWrapper<Comment>().eq(Comment::getTypeId,article.getId())))
                 .shareCount(article.getShareCount())
@@ -216,7 +220,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
             cover=split[0];
         }
         return Article.builder()
-                .id(articleSaveDTO.getId().isEmpty()?null: Long.valueOf(articleSaveDTO.getId()))
+                .id(articleSaveDTO.getId()==null?null: Long.valueOf(articleSaveDTO.getId()))
                 .articleCover(cover)
                 .articleImages(articleSaveDTO.getImages())
                 .articleTitle(articleSaveDTO.getTitle())

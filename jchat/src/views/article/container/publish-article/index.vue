@@ -137,20 +137,20 @@ onUnmounted(() => {
   }
 })
 function destroy(){
-  articleStore.clearSaveArticle()
+  articleStore.clearArticle("save")
   articleStore.isUpdate = false;
   articleStore.isPublish=false;
 }
 function continueUpdate() {
   articleStore.isUpdate = true;
-  articleStore.getSaveArticle()
+  articleStore.getArticle("save","0")
 }
 function giveUp() {
   deleteArticleById(articleStore.saveArticle.id).then(res => {
     if (res.code == 200) {
       ElMessage.success("已放弃编辑保存的文章")
-      articleStore.getArticleCount("0");
-      articleStore.clearSaveArticle()
+      articleStore.getArticle("count","0");
+      articleStore.clearArticle("save")
     }
   })
 }
@@ -160,7 +160,7 @@ function init() {
         value: category.id,   // 分类ID
         label: category.categoryName  // 分类名称
   }))
-  articleStore.getArticleCount("0");
+  articleStore.getArticle("count","0");
 }
 function beforeRemove(uploadFile, uploadFiles) {
   if (uploadFiles.length <= 1) {
@@ -216,7 +216,6 @@ const handleUploadSuccess = (response, file, fileList) => {
     ElMessage.error('文件上传失败');
   }
 };
-
 // 自定义上传方法
 function upload(options) {
   const { file, onProgress, onSuccess, onError } = options;
@@ -243,6 +242,7 @@ function generateUUID() {
 
 // 发布文章
 const publish = () => {
+  
   if (!articleStore.saveArticle.title) {
     ElMessage.error('文章标题为空');
     return;
@@ -265,13 +265,12 @@ const publish = () => {
   }
   publishArticle(articleStore.saveArticle)
     .then(res => {
+      console.log(res);
       if (res.code === 200) {
         ElMessage.success('文章上传成功');
         destroy()
         articleStore.saveArticleCount = 0
-      } else {
-        ElMessage.error(res.msg);
-      }
+      } 
     })
     .catch(err => {
       ElMessage.error(err);

@@ -207,8 +207,13 @@ public class JwtUtil {
             // 查询权限关系表
             LambdaQueryWrapper<RolePermission>lqw=new LambdaQueryWrapper<>();
             lqw.in(RolePermission::getRoleId,roles.stream().map(Role::getId).toList());
-            List<RolePermission> rolePermissions = rolePermissionMapper.selectList(lqw);
-//            List<RolePermission> rolePermissions = rolePermissionMapper.selectBatchIds(roles.stream().map(Role::getId).toList());
+            List<RolePermission> rolePermissions=null;
+            rolePermissions = redisCache.getCacheList(RedisConstant.ROLE_PERMISSION_RELATION);
+            if(rolePermissions.isEmpty()){
+                rolePermissions = rolePermissionMapper.selectList(lqw);
+                redisCache.setCacheList(RedisConstant.ROLE_PERMISSION_RELATION,rolePermissions);
+            }
+
             // 查询角色权限
             List<Long> pIds = rolePermissions.stream().map(RolePermission::getPermissionId).toList();
             List<Permission> permissions=null;

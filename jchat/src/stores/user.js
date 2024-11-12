@@ -1,10 +1,18 @@
-import { getUserInfo } from '@/api/user';
+import { getOtherUserInfo, getUserInfo } from '@/api/user';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useUserStore = defineStore('user', () => {
     const userInfo=ref(null)
     const token=ref('')
+    const targetUserInfo=ref(null);
+    async function getInfoById(id){
+        getOtherUserInfo(id).then(res=>{
+            if(res.code===200){
+                targetUserInfo.value=res.data
+            }
+        })
+    }
      // 获取用户信息
      const getInfo = async () => {
         getUserInfo().then((res) => {
@@ -14,6 +22,6 @@ export const useUserStore = defineStore('user', () => {
         })
     }
     return {
-        getInfo,token,userInfo
+        getInfo,token,userInfo,getInfoById,targetUserInfo
     }
 });

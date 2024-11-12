@@ -25,16 +25,7 @@ http.interceptors.request.use((config) => {
 // response拦截器
 http.interceptors.response.use(
     (response) => {
-          if (Array.isArray(response.data.data)) {
-            response.data.data.forEach(item => {
-              if (item.updateTime) {
-                item.updateTime = handleDateTime(item.updateTime);
-              }
-              if (item.createTime) {
-                item.createTime = handleDateTime(item.createTime);
-              }
-            });
-        }
+    
         return response.data
     },
     (error) => {

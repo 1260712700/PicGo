@@ -14,7 +14,7 @@ public class ArticleConstant {
      */
     public static final String DRAFTS_ARTICLE = "0";
     /**
-     * 获取个人文章
+     * 获取个人文章所有文章除了草稿箱
      */
     public static final String PERSONAL_ARTICLE = "1";
     /**

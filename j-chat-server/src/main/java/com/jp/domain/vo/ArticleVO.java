@@ -20,13 +20,14 @@ import java.util.List;
 public class ArticleVO implements BaseData {
     @Schema(description = "id")
     private Long id;
+    @Schema(description = "userId")
+    private Long userId;
     @Schema(description = "标题")
     private String title;
     @Schema(description = "正文")
     private String content;
     @Schema(description = "标签")
     private String tags;
-
     /**
      * 文章缩略图
      */

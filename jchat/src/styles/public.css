@@ -1,0 +1,24 @@
+body {
+    /* 将 body 元素或者任何其他你想要应用该字体的元素设置为 '阿里妈妈方圆体 VF Regular' */
+    font-family: "阿里妈妈方圆体 VF Regular", sans-serif;
+    /* 当自定义字体尚未加载时提供一个备选字体（在这个例子中是无衬线字体） */
+  }
+  .icon{
+    @apply h-full w-full transition-colors duration-700
+  }
+  .icon:hover{
+    animation: jump 0.7s ease-out;
+    /* opacity: 0.6; */
+  }
+  /* 小字体 */
+  .text-little{
+    font-size: 10px;
+  }
+  /* 设置滚动条消失 */
+  .no-scrollbar{
+    scrollbar-width: none;
+    -ms-overflow-style: none
+  }
+.hardware-speedup{
+    transform: translate3d(0, 0, 0); /* 开启硬件加速 */
+}

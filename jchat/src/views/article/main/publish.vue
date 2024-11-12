@@ -1,25 +1,37 @@
 <template>
-  <div class="publish-article">
+  <div class="publish-article h-full w-full relative">
     <div class="head h-[45px] w-full flex items-center">
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        router
-      >
-        <el-menu-item index="/article/publish" to="/article/publish">
-          <el-icon><Plus /></el-icon>发布文章
-        </el-menu-item>
-        <el-menu-item index="/article/home" to="/article/home">
-          <el-icon><HomeFilled /></el-icon>首页
-        </el-menu-item>
-        <el-menu-item index="/article/management" to="/article/management">
-          <el-icon><Memo /></el-icon>文章管理
-        </el-menu-item>
-      </el-menu>
+      <el-page-header class="shadow-md rounded-md w-full pl-3 " >
+        <template #content>
+          <el-menu
+          :default-active="activeIndex"
+          :ellipsis="false"
+          class="w-full"
+          mode="horizontal"
+          router
+        >
+          <el-menu-item index="/article/publish" to="/article/publish">
+            <el-icon><Plus /></el-icon>发布文章
+          </el-menu-item>
+          <el-menu-item index="/article/home" to="/article/home">
+            <el-icon><HomeFilled /></el-icon>首页
+          </el-menu-item>
+          <el-menu-item index="/article/management" to="/article/management">
+            <el-icon><Memo /></el-icon>文章管理
+          </el-menu-item>
+        </el-menu>
+        </template>
+      </el-page-header>
+
     </div>
     <div class="container">
-      <router-view></router-view>
+    
+       <router-view v-slot="{ Component }">
+        <transition name="el-fade-in-linear" mode="out-in">
+          <!-- 使用动态组件来包裹过渡 -->
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
@@ -54,6 +66,6 @@ onMounted(() => {
 }
 .publish-article .el-menu--horizontal {
   --el-menu-horizontal-height: 45px;
-  @apply rounded-md shadow-md w-full;
+  background-color: transparent;
 }
 </style>

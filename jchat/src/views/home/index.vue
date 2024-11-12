@@ -14,7 +14,7 @@
 import Images from "@/views/Home/image/index.vue";
 import Brand from "@/views/Home/brand/index.vue";
 import Main from "@/views/Home/main/index.vue";
-import FriendBar from "@/views/Home/friend/index.vue";
+import FriendBar from "@/views/home/pop/friend/index.vue";
 import MessageBar from "@/views/home/pop/message/index.vue";
 import { onMounted } from "vue";
 import { useUserStore } from "@/stores/user"; 

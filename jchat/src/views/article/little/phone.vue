@@ -187,7 +187,7 @@ const handleCarouselChange = index => {
 }
 </script>
   
-  <style>
+  <style scoped>
 .carousel-image {
   width: auto;
   max-width: 100%;

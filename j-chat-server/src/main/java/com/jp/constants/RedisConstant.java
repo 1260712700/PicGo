@@ -45,6 +45,12 @@ public class RedisConstant {
      * 用户权限
      */
     public static final String USER_PERMISSION = "user:permission";
+
+    /**
+     * 角色-权限关系
+     */
+    public static final String ROLE_PERMISSION_RELATION = "role:permission:relation";
+
     /**
      * 重置邮箱
      */

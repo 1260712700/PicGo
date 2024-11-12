@@ -24,23 +24,41 @@ export const constantRouter = [
                             path: 'article/publish',
                             component: () => import('@/views/article/container/publish-article/index.vue'),
                             name: 'articlePublish',
+                            meta:{
+                                title:"发布文章"
+                            },
                         },
                         {
                             path: 'article/home',
                             component: () => import('@/views/article/container/home/index.vue'),
                             name: 'articleHome',
+                            meta:{
+                                title:"文章首页"
+                            },
                         },
                         {
                             path: 'article/management',
                             component: () => import('@/views/article/container/management/index.vue'),
                             name: 'articleManagement',
+                            meta:{
+                                title:"文章管理"
+                            },
                         }
                     ]
                 },
-              
+                //用户页
+                {
+                    path: 'userinfo',
+                    component: () => import('@/views/user/index.vue'),
+                    name: 'userinfo',
+                    meta:{
+                        title:"用户信息"
+                    },
+                }
             ]
         },
         {
+            // 登录页
             path: '/welcome',
             component: () => import('@/views/welcome/index.vue'),
             name: 'welcome',

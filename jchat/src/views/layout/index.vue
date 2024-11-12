@@ -4,14 +4,11 @@ import HeaderBox from '@/components/header/index.vue';
 </script>
 
 <template>
+  <div>
     <HeaderBox/>
-  <div style="min-height: 100vh">
-    <router-view></router-view>
-   <!-- <router-view v-slot="{Component}">
-      <transition name="el-fade-in-linear" mode="out-in">
-        <component :is="Component"/>
-      </transition>
-    </router-view> -->
+    <div style="min-height: 100vh">
+      <router-view></router-view>
+  </div>
  </div> 
 
 </template>
